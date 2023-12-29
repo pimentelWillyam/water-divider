@@ -1,29 +1,32 @@
+import { type IErrorFactory } from '../interface/IErrorFactory'
 import type IPersonValidator from '../interface/IPersonValidator'
-import InvalidAgeError from './errors/person/InvalidAgeError'
-import InvalidDataTypeError from './errors/person/InvalidDataTypeError'
-import InvalidEmailError from './errors/person/InvalidEmailError'
-import NameHasAnyNumberError from './errors/person/NameHasAnyNumberError'
-import NameLengthBelowFourLettersError from './errors/person/NameLengthBelowFourLettersError'
+import type KnownError from './errors/KnownError'
 
 class PersonValidator implements IPersonValidator {
-  validateCreation (name: string, email: string, age: number): void {
-    if (this.valueIsNullOrUndefinedOrEmpty(name)) throw new InvalidDataTypeError('nome')
-    if (this.valueIsNullOrUndefinedOrEmpty(email)) throw new InvalidDataTypeError('email')
-    if (this.valueIsNullOrUndefinedOrEmpty(age)) throw new InvalidDataTypeError('idade')
-    if (!this.nameIsLongEnough(name)) throw new NameLengthBelowFourLettersError()
-    if (!this.nameHasNoNumbers(name)) throw new NameHasAnyNumberError()
-    if (!this.isEmailValid(email)) throw new InvalidEmailError()
-    if (!this.isAgeValid(age)) throw new InvalidAgeError()
+  constructor (readonly errorFactory: IErrorFactory) {}
+  validateCreation (name: string, email: string, age: number): KnownError[] {
+    const errorList: KnownError[] = []
+    if (this.valueIsNullOrUndefinedOrEmpty(name)) errorList.push(this.errorFactory.create('invalid data type', 'nome'))
+    if (this.valueIsNullOrUndefinedOrEmpty(email)) errorList.push(this.errorFactory.create('invalid data type', 'email'))
+    if (this.valueIsNullOrUndefinedOrEmpty(age)) errorList.push(this.errorFactory.create('invalid data type', 'idade'))
+    if (!this.nameIsLongEnough(name)) errorList.push(this.errorFactory.create('name length below four letters'))
+    if (!this.nameHasNoNumbers(name)) errorList.push(this.errorFactory.create('name has any number'))
+    if (!this.isEmailValid(email)) errorList.push(this.errorFactory.create('invalid email'))
+    if (!this.isAgeValid(age)) errorList.push(this.errorFactory.create('invalid age'))
+    console.log(errorList)
+    return errorList
   }
 
-  validateUpdate (name: string, email: string, age: number): void {
-    if (name !== undefined && this.valueIsNullOrEmpty(name)) throw new InvalidDataTypeError('nome')
-    if (email !== undefined && this.valueIsNullOrEmpty(email)) throw new InvalidDataTypeError('email')
-    if (age !== undefined && this.valueIsNullOrEmpty(age)) throw new InvalidDataTypeError('idade')
-    if (name !== undefined && !this.nameIsLongEnough(name)) throw new NameLengthBelowFourLettersError()
-    if (name !== undefined && !this.nameHasNoNumbers(name)) throw new NameHasAnyNumberError()
-    if (email !== undefined && !this.isEmailValid(email)) throw new InvalidEmailError()
-    if (age !== undefined && !this.isAgeValid(age)) throw new InvalidAgeError()
+  validateUpdate (name: string, email: string, age: number): KnownError[] {
+    const errorList: KnownError[] = []
+    if (name !== undefined && this.valueIsNullOrEmpty(name)) errorList.push(this.errorFactory.create('invalid data type', 'nome'))
+    if (email !== undefined && this.valueIsNullOrEmpty(email)) errorList.push(this.errorFactory.create('invalid data type', 'email'))
+    if (age !== undefined && this.valueIsNullOrEmpty(age)) errorList.push(this.errorFactory.create('invalid data type', 'idade'))
+    if (name !== undefined && !this.nameIsLongEnough(name)) errorList.push(this.errorFactory.create('name length below four letters'))
+    if (name !== undefined && !this.nameHasNoNumbers(name)) errorList.push(this.errorFactory.create('name has any number'))
+    if (email !== undefined && !this.isEmailValid(email)) errorList.push(this.errorFactory.create('invalid email'))
+    if (age !== undefined && !this.isAgeValid(age)) errorList.push(this.errorFactory.create('invalid age'))
+    return errorList
   }
 
   private readonly nameIsLongEnough = (name: string): boolean => {
