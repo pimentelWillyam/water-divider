@@ -12,11 +12,12 @@ import Api from './helper/Api'
 import * as express from 'express'
 import { NameNormalizer } from './helper/NameNormalizer'
 import UUIDGenerator from './helper/UUIDGenerator'
+import { ErrorFactory } from './api/factory/ErrorFactory'
 
 const memoryDataSource = new MemoryDataSource()
 const personRepository = new PersonRepository(memoryDataSource)
 const personService = new PersonService(personRepository, new UUIDGenerator(), new NameNormalizer())
-const personController = new PersonController(personService, new PersonValidator())
+const personController = new PersonController(personService, new PersonValidator(new ErrorFactory()))
 const personRouter = new PersonRouter(personController)
 
 const api = new Api(express(), personRouter)
