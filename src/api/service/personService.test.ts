@@ -1,7 +1,7 @@
-import type Person from '../../api/entity/Person'
+import type Person from '../entity/Person'
 import MemoryDataSource from '../../data/MemoryDataSource'
-import PersonRepository from '../../api/repository/PersonRepository'
-import PersonService from '../../api/service/PersonService'
+import PersonRepository from '../repository/PersonRepository'
+import PersonService from './PersonService'
 import UUIDGenerator from '../../helper/UUIDGenerator'
 import { NameNormalizer } from '../../helper/NameNormalizer'
 
