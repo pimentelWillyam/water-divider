@@ -29,6 +29,7 @@ import PersonRepository from '../../api/repository/PersonRepository'
 import App from '../../api/App'
 import { NameNormalizer } from '../../helper/NameNormalizer'
 import UUIDGenerator from '../../helper/UUIDGenerator'
+import { ErrorFactory } from '../../api/factory/ErrorFactory'
 
 // instanciating helpers
 const server = new Server()
@@ -43,7 +44,7 @@ const personRepository = new PersonRepository(memoryDataSource)
 const personService = new PersonService(personRepository, new UUIDGenerator(), new NameNormalizer())
 
 // instanciating validators
-const personValidator = new PersonValidator()
+const personValidator = new PersonValidator(new ErrorFactory())
 // instanciating controllers
 const personController = new PersonController(personService, personValidator)
 
@@ -84,8 +85,8 @@ describe('User integration tests', () => {
       age: 22
     })
     expect(response.status).toEqual(400)
-    expect(response.body.name).toEqual('Nome abaixo de quatro letras')
-    expect(response.body.message).toEqual('Não é possivel cadastrar um nome com a quantidade de caracteres abaixo de quatro letras')
+    expect(response.body.errorList[0].name).toEqual('Nome abaixo de quatro letras')
+    expect(response.body.errorList[0].message).toEqual('Não é possivel cadastrar um nome com a quantidade de caracteres abaixo de quatro letras')
   })
 
   test('Não deve inserir uma pessoa cujo nome possui algum número', async () => {
@@ -95,8 +96,8 @@ describe('User integration tests', () => {
       age: 22
     })
     expect(response.status).toEqual(400)
-    expect(response.body.name).toEqual('Nome possui algum número')
-    expect(response.body.message).toEqual('Não é possivel cadastrar um nome que contenha números')
+    expect(response.body.errorList[0].name).toEqual('Nome possui algum número')
+    expect(response.body.errorList[0].message).toEqual('Não é possivel cadastrar um nome que contenha números')
   })
 
   test('A padronização dos nomes deve ser efetuada', async () => {
@@ -132,8 +133,8 @@ describe('User integration tests', () => {
       age: 22
     })
     expect(response.status).toEqual(400)
-    expect(response.body.name).toEqual('Email inválido')
-    expect(response.body.message).toEqual('Não é possivel cadastrar um email inválido, ele precisa seguir o formato exemplo@exemplo.exemplo')
+    expect(response.body.errorList[0].name).toEqual('Email inválido')
+    expect(response.body.errorList[0].message).toEqual('Não é possivel cadastrar um email inválido, ele precisa seguir o formato exemplo@exemplo.exemplo')
   })
 
   test('Não deve ser possível cadastrar uma pessoa menor que 18 ou maior que 65', async () => {
@@ -143,14 +144,14 @@ describe('User integration tests', () => {
       age: 16
     })
     expect(response.status).toEqual(400)
-    expect(response.body.name).toEqual('Idade inválida')
-    expect(response.body.message).toEqual('Não é possivel cadastrar uma idade inválida, para uma idade ser válida precisa estar entre 18 e 65')
+    expect(response.body.errorList[0].name).toEqual('Idade inválida')
+    expect(response.body.errorList[0].message).toEqual('Não é possivel cadastrar uma idade inválida, para uma idade ser válida precisa estar entre 18 e 65')
   })
 
   test('Não deve ser possível cadastrar uma pessoa com algum dado nulo ou indefinido', async () => {
     const firstResponse = await request(app.api.server).post('/api/person').send({
-      name: null,
-      email: 'willyam@gmail.com',
+      name: '',
+      email: '',
       age: 22
     })
 
@@ -166,14 +167,14 @@ describe('User integration tests', () => {
       age: undefined
     })
     expect(firstResponse.status).toEqual(400)
-    expect(firstResponse.body.name).toEqual('Tipo de dado inválido')
-    expect(firstResponse.body.message).toEqual('Não é possivel cadastrar um nome vazio, indefinido ou nulo')
+    expect(firstResponse.body.errorList[0].name).toEqual('Tipo de dado inválido')
+    expect(firstResponse.body.errorList[0].message).toEqual('Não é possivel cadastrar um nome vazio, indefinido ou nulo')
     expect(secondResponse.status).toEqual(400)
-    expect(secondResponse.body.name).toEqual('Tipo de dado inválido')
-    expect(secondResponse.body.message).toEqual('Não é possivel cadastrar um email vazio, indefinido ou nulo')
+    expect(secondResponse.body.errorList[0].name).toEqual('Tipo de dado inválido')
+    expect(secondResponse.body.errorList[0].message).toEqual('Não é possivel cadastrar um email vazio, indefinido ou nulo')
     expect(thirdResponse.status).toEqual(400)
-    expect(thirdResponse.body.name).toEqual('Tipo de dado inválido')
-    expect(thirdResponse.body.message).toEqual('Não é possivel cadastrar um idade vazio, indefinido ou nulo')
+    expect(thirdResponse.body.errorList[0].name).toEqual('Tipo de dado inválido')
+    expect(thirdResponse.body.errorList[0].message).toEqual('Não é possivel cadastrar um idade vazio, indefinido ou nulo')
   })
 
   test('Deve atualizar uma pessoa inserida no banco em memória', async () => {
