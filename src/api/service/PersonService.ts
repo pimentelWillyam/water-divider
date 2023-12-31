@@ -1,11 +1,11 @@
+import { type NameNormalizer } from '../../helper/NameNormalizer'
+import type UUIDGenerator from '../../helper/UUIDGenerator'
 import type Person from '../entity/Person'
-import { type INameNormalizer } from '../interface/INameNormalizer'
 import type IPersonRepository from '../interface/IPersonRepository'
 import type IPersonService from '../interface/IPersonService'
-import { type IUUIDGenerator } from '../interface/IUUIDGenerator'
 
 class PersonService implements IPersonService {
-  constructor (readonly PersonRepository: IPersonRepository, readonly idGenerator: IUUIDGenerator, readonly fullNameNormalizer: INameNormalizer) {}
+  constructor (readonly PersonRepository: IPersonRepository, readonly idGenerator: UUIDGenerator, readonly fullNameNormalizer: NameNormalizer) {}
 
   create (name: string, email: string, age: number): Person {
     return this.PersonRepository.create(this.idGenerator.generate(), this.fullNameNormalizer.normalize(name), email, age)
