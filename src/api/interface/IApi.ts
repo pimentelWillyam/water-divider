@@ -1,6 +1,6 @@
-import { type Express } from 'express'
-interface IApi {
-  server: Express
+interface IAPI {
+  start: (listenerPort: number) => void
+  stop: () => void
 }
 
-export default IApi
+export type { IAPI }
