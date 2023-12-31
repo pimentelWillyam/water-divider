@@ -39,14 +39,14 @@ class MemoryDataSource implements IMemoryDataSource {
   updatePersonRegistry = (id: string, personToBeUpdated: Person): Person | null => {
     const person = this.fetchPersonRegistry(id)
     if (person === null) return null
-    if (personToBeUpdated.name != undefined) person.name = personToBeUpdated.name
-    if (personToBeUpdated.email != undefined) person.email = personToBeUpdated.email
-    if (personToBeUpdated.age != undefined) person.age = personToBeUpdated.age
+    if (personToBeUpdated.name !== undefined) person.name = personToBeUpdated.name
+    if (personToBeUpdated.email !== undefined) person.email = personToBeUpdated.email
+    if (personToBeUpdated.age !== undefined) person.age = personToBeUpdated.age
     return person
   }
 
   deletePersonRegistry = (id: string): Person | null => {
-    for (let i=0; i< this.personList.length; i++) {
+    for (let i = 0; i < this.personList.length; i++) {
       if (this.personList[i].id === id) {
         const person = this.personList[i]
         this.personList.splice(i, 1)
