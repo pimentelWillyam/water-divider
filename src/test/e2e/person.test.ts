@@ -1,73 +1,23 @@
-// importing external libraries
-import { Server } from 'http'
-
-import * as express from 'express'
+import { APIFactory } from '../../api/factory/APIFactory'
 
 import * as request from 'supertest'
-
-// importing helpers
-import Api from '../../helper/Api'
-
-// importing data classes
-import MemoryDataSource from '../../data/MemoryDataSource'
-
-// importing routers
-import PersonRouter from '../../api/router/PersonRouter'
-// importing controllers
-import PersonController from '../../api/controller/PersonController'
-
-// importing validators
-import PersonValidator from '../../api/validator/PersonValidator'
-
-// importing services
-import PersonService from '../../api/service/PersonService'
-
-// importing repositories
-import PersonRepository from '../../api/repository/PersonRepository'
-
-// importing app
-import App from '../../api/App'
-import { NameNormalizer } from '../../helper/NameNormalizer'
-import UUIDGenerator from '../../helper/UUIDGenerator'
-import { ErrorFactory } from '../../api/factory/ErrorFactory'
-
-// instanciating helpers
-const server = new Server()
-
-// instanciating data classes
-const memoryDataSource = new MemoryDataSource()
-
-// instanciating repositories
-const personRepository = new PersonRepository(memoryDataSource)
-
-// instanciating services
-const personService = new PersonService(personRepository, new UUIDGenerator(), new NameNormalizer())
-
-// instanciating validators
-const personValidator = new PersonValidator(new ErrorFactory())
-// instanciating controllers
-const personController = new PersonController(personService, personValidator)
-
-// instanciating routers
-const personRouter = new PersonRouter(personController)
-// instanciating app related classes
-const api = new Api(express(), personRouter)
+import { DataSourceFactory } from '../../api/factory/DataSourceFactory'
 
 // getting .env configuration
 
 describe('User integration tests', () => {
-  const app = new App(api, server)
+  const dataSource = new DataSourceFactory().fabricate('memory')
+  const api = new APIFactory(dataSource).fabricate()
   beforeEach(() => {
-    app.start()
-    memoryDataSource.start()
+    api.start(4000)
   })
 
   afterEach(() => {
-    memoryDataSource.stop()
-    app.stop()
+    api.stop()
+    dataSource.dropPersonTable()
   })
   test('Deve inserir uma pessoa no banco em memória', async () => {
-    const response = await request(app.api.server).post('/api/person').send({
+    const response = await request(api.server).post('/api/person').send({
       name: 'willyam',
       email: 'willyam@gmail.com',
       age: 22
@@ -79,7 +29,7 @@ describe('User integration tests', () => {
   })
 
   test('Não deve inserir uma pessoa cujo nome tem menos de 4 letras', async () => {
-    const response = await request(app.api.server).post('/api/person').send({
+    const response = await request(api.server).post('/api/person').send({
       name: 'wil',
       email: 'willyam@gmail.com',
       age: 22
@@ -90,7 +40,7 @@ describe('User integration tests', () => {
   })
 
   test('Não deve inserir uma pessoa cujo nome possui algum número', async () => {
-    const response = await request(app.api.server).post('/api/person').send({
+    const response = await request(api.server).post('/api/person').send({
       name: 'will2016',
       email: 'willyam@gmail.com',
       age: 22
@@ -101,33 +51,34 @@ describe('User integration tests', () => {
   })
 
   test('A padronização dos nomes deve ser efetuada', async () => {
-    const response = await request(app.api.server).post('/api/person').send({
-      name: 'willyam',
-      email: 'willyam@gmail.com',
+    const response = await request(api.server).post('/api/person').send({
+      name: 'wallace',
+      email: 'wallace@gmail.com',
       age: 22
     })
     expect(response.status).toEqual(201)
-    expect(response.body.name).toEqual('Willyam')
-    expect(response.body.email).toEqual('willyam@gmail.com')
+    expect(response.body.name).toEqual('Wallace')
+    expect(response.body.email).toEqual('wallace@gmail.com')
     expect(response.body.age).toEqual(22)
   })
 
   test('Deve buscar uma lista de pessoas no banco em memória', async () => {
-    await request(app.api.server).post('/api/person').send({
-      name: 'willyam',
-      email: 'willyam@gmail.com',
+    await request(api.server).post('/api/person').send({
+      name: 'wesley',
+      email: 'wesley@gmail.com',
       age: 22
     })
-    const response = await request(app.api.server).get('/api/person')
+    const response = await request(api.server).get('/api/person')
     expect(response.status).toEqual(200)
+    console.log(response.body)
     expect(response.body.length).toEqual(1)
-    expect(response.body[0].name).toEqual('Willyam')
-    expect(response.body[0].email).toEqual('willyam@gmail.com')
+    expect(response.body[0].name).toEqual('Wesley')
+    expect(response.body[0].email).toEqual('wesley@gmail.com')
     expect(response.body[0].age).toEqual(22)
   })
 
   test('Não deve ser possível cadastrar um email fora do padrão', async () => {
-    const response = await request(app.api.server).post('/api/person').send({
+    const response = await request(api.server).post('/api/person').send({
       name: 'willyam',
       email: 'willyam:gmail!com',
       age: 22
@@ -138,7 +89,7 @@ describe('User integration tests', () => {
   })
 
   test('Não deve ser possível cadastrar uma pessoa menor que 18 ou maior que 65', async () => {
-    const response = await request(app.api.server).post('/api/person').send({
+    const response = await request(api.server).post('/api/person').send({
       name: 'willyam',
       email: 'willyam@gmail.com',
       age: 16
@@ -149,19 +100,19 @@ describe('User integration tests', () => {
   })
 
   test('Não deve ser possível cadastrar uma pessoa com algum dado nulo ou indefinido', async () => {
-    const firstResponse = await request(app.api.server).post('/api/person').send({
+    const firstResponse = await request(api.server).post('/api/person').send({
       name: '',
       email: '',
       age: 22
     })
 
-    const secondResponse = await request(app.api.server).post('/api/person').send({
+    const secondResponse = await request(api.server).post('/api/person').send({
       name: 'willyam',
       email: '',
       age: 22
     })
 
-    const thirdResponse = await request(app.api.server).post('/api/person').send({
+    const thirdResponse = await request(api.server).post('/api/person').send({
       name: 'willyam',
       email: 'willyam@gmail.com',
       age: undefined
@@ -178,13 +129,13 @@ describe('User integration tests', () => {
   })
 
   test('Deve atualizar uma pessoa inserida no banco em memória', async () => {
-    const firstResponse = await request(app.api.server).post('/api/person').send({
+    const firstResponse = await request(api.server).post('/api/person').send({
       name: 'willyam',
       email: 'willyam@gmail.com',
       age: 22
     })
 
-    const response = await request(app.api.server).put(`/api/person/${firstResponse.body.id as string}`).send({
+    const response = await request(api.server).put(`/api/person/${firstResponse.body.id as string}`).send({
       name: 'cristiano',
       email: 'cristiano@gmail.com',
       age: 20
@@ -196,13 +147,13 @@ describe('User integration tests', () => {
   })
 
   test('Deve ser capaz de deletar uma pessoa inserida no banco em memória', async () => {
-    const firstResponse = await request(app.api.server).post('/api/person').send({
+    const firstResponse = await request(api.server).post('/api/person').send({
       name: 'willyam',
       email: 'willyam@gmail.com',
       age: 22
     })
 
-    const response = await request(app.api.server).delete(`/api/person/${firstResponse.body.id as string}`).send()
+    const response = await request(api.server).delete(`/api/person/${firstResponse.body.id as string}`).send()
     expect(response.status).toEqual(200)
     expect(response.body.age).toEqual(22)
   })
