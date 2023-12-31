@@ -1,4 +1,5 @@
 import { type IErrorFactory } from '../interface/IErrorFactory'
+import { type ErrorType } from '../type/ErrorType'
 
 class KnownError extends Error {
   status: number
@@ -47,7 +48,7 @@ class ServerError extends KnownError {
 }
 
 class ErrorFactory implements IErrorFactory {
-  create = (errorType: string, invalidDataTypeAttribute?: string): KnownError => {
+  create = (errorType: ErrorType, invalidDataTypeAttribute?: string): KnownError => {
     if (errorType === 'invalid age') return new InvalidAgeError()
     if (errorType === 'invalid data type' && invalidDataTypeAttribute !== undefined) return new InvalidDataTypeError(invalidDataTypeAttribute)
     if (errorType === 'invalid email') return new InvalidEmailError()
