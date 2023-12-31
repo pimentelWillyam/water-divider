@@ -19,7 +19,7 @@ class PersonRepository implements IPersonRepository {
   }
 
   update (id: string, name: string, email: string, age: number): Person | null {
-    return this.dataSource.updatePersonRegistry(id, {id, name, email, age})
+    return this.dataSource.updatePersonRegistry(id, { id, name, email, age })
   }
 
   delete (id: string): Person | null {
