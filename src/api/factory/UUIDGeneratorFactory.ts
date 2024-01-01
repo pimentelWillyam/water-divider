@@ -1,4 +1,4 @@
-import UUIDGenerator from '../../helper/UUIDGenerator'
+import UUIDGenerator from '../helper/UUIDGenerator'
 import { type IUUIDGenerator } from '../interface/IUUIDGenerator'
 import { type IUUIDGeneratorFactory } from '../interface/IUUIDGeneratorFactory'
 

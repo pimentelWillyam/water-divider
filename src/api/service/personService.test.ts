@@ -2,8 +2,8 @@ import type Person from '../entity/Person'
 import MemoryDataSource from '../../data/MemoryDataSource'
 import PersonRepository from '../repository/PersonRepository'
 import PersonService from './PersonService'
-import UUIDGenerator from '../../helper/UUIDGenerator'
-import { NameNormalizer } from '../../helper/NameNormalizer'
+import UUIDGenerator from '../helper/UUIDGenerator'
+import { NameNormalizer } from '../helper/NameNormalizer'
 
 test('Deve ser possível cadastrar uma pessoa', () => {
   const memoryDataSource = new MemoryDataSource()

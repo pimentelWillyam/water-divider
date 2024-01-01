@@ -1,4 +1,4 @@
-import { type INameNormalizer } from '../api/interface/INameNormalizer'
+import { type INameNormalizer } from '../interface/INameNormalizer'
 
 class NameNormalizer implements INameNormalizer {
   normalize = (rawFullName: string): string => {

@@ -1,5 +1,5 @@
-import { type NameNormalizer } from '../../helper/NameNormalizer'
-import type UUIDGenerator from '../../helper/UUIDGenerator'
+import { type NameNormalizer } from '../helper/NameNormalizer'
+import type UUIDGenerator from '../helper/UUIDGenerator'
 import type Person from '../entity/Person'
 import type IPersonRepository from '../interface/IPersonRepository'
 import type IPersonService from '../interface/IPersonService'

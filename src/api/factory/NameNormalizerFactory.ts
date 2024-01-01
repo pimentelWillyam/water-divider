@@ -1,4 +1,4 @@
-import { NameNormalizer } from '../../helper/NameNormalizer'
+import { NameNormalizer } from '../helper/NameNormalizer'
 import { type INameNormalizer } from '../interface/INameNormalizer'
 import { type INameNormalizerFactory } from '../interface/INameNormalizerFactory'
 
