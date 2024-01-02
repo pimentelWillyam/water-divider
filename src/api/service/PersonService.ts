@@ -7,24 +7,24 @@ import type IPersonService from '../interface/IPersonService'
 class PersonService implements IPersonService {
   constructor (readonly PersonRepository: IPersonRepository, readonly idGenerator: UUIDGenerator, readonly fullNameNormalizer: NameNormalizer) {}
 
-  create (name: string, email: string, age: number): Person {
-    return this.PersonRepository.create(this.idGenerator.generate(), this.fullNameNormalizer.normalize(name), email, age)
+  async create (name: string, email: string, age: number): Promise<Person> {
+    return await this.PersonRepository.create(this.idGenerator.generate(), this.fullNameNormalizer.normalize(name), email, age)
   }
 
-  getAll (): Person[] {
-    return this.PersonRepository.getAll()
+  async getAll (): Promise<Person[]> {
+    return await this.PersonRepository.getAll()
   }
 
-  get (id: string): Person | null {
-    return this.PersonRepository.get(id)
+  async get (id: string): Promise<Person | null> {
+    return await this.PersonRepository.get(id)
   }
 
-  update (id: string, personToBeUpdated: Person): Person | null {
-    return this.PersonRepository.update(id, this.fullNameNormalizer.normalize(personToBeUpdated.name), personToBeUpdated.email, personToBeUpdated.age)
+  async update (id: string, personToBeUpdated: Person): Promise<Person | null> {
+    return await this.PersonRepository.update(id, this.fullNameNormalizer.normalize(personToBeUpdated.name), personToBeUpdated.email, personToBeUpdated.age)
   }
 
-  delete (id: string): Person | null {
-    return this.PersonRepository.delete(id)
+  async delete (id: string): Promise<Person | null> {
+    return await this.PersonRepository.delete(id)
   }
 }
 

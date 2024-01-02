@@ -1,29 +1,29 @@
 import type IPersonRepository from '../interface/IPersonRepository'
-import type { IMemoryDataSource } from '../interface/IMemoryDataSource'
 import type Person from '../entity/Person'
+import { type DataSource } from '../type/Datasource'
 
 class PersonRepository implements IPersonRepository {
-  constructor (readonly dataSource: IMemoryDataSource) {}
+  constructor (readonly dataSource: DataSource) {}
 
-  create (id: string, name: string, email: string, age: number): Person {
-    this.dataSource.insertPersonRegistry(id, name, email, age)
+  async create (id: string, name: string, email: string, age: number): Promise<Person> {
+    await this.dataSource.insertPersonRegistry({ id, name, email, age })
     return { id, name, email, age }
   }
 
-  getAll (): Person[] {
-    return this.dataSource.fetchEveryPersonRegistry()
+  async getAll (): Promise<Person[]> {
+    return await this.dataSource.fetchEveryPersonRegistry()
   }
 
-  get (id: string): Person | null {
-    return this.dataSource.fetchPersonRegistry(id)
+  async get (id: string): Promise<Person | null> {
+    return await this.dataSource.fetchPersonBy('id', id)
   }
 
-  update (id: string, name: string, email: string, age: number): Person | null {
-    return this.dataSource.updatePersonRegistry(id, { id, name, email, age })
+  async update (id: string, name: string, email: string, age: number): Promise<Person | null> {
+    return await this.dataSource.updatePersonBy('id', id, { id, name, email, age })
   }
 
-  delete (id: string): Person | null {
-    return this.dataSource.deletePersonRegistry(id)
+  async delete (id: string): Promise<Person | null> {
+    return await this.dataSource.deletePersonBy('id', id)
   }
 }
 

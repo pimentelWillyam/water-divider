@@ -7,6 +7,9 @@ class DataSourceFactory implements IDataSourceFactory {
     switch (dataSourceType) {
       case 'memory':
         return new MemoryDataSource()
+
+      case 'mariadb':
+        return new MemoryDataSource()
       default:
         throw new Error('Error during data source creation')
     }

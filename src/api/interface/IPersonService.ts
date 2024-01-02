@@ -1,12 +1,11 @@
 import type Person from '../entity/Person'
 
 interface IPersonService {
-  create: (name: string, email: string, age: number) => Person
-  getAll: () => Person[]
-  get: (id: string) => Person | null
-  update: (id: string, personToBeUpdated: Person) => Person | null
-  delete: (id: string) => Person | null
-
+  create: (name: string, email: string, age: number) => Promise<Person>
+  getAll: () => Promise<Person[]>
+  get: (id: string) => Promise<Person | null>
+  update: (id: string, personToBeUpdated: Person) => Promise<Person | null>
+  delete: (id: string) => Promise<Person | null>
 
 }
 

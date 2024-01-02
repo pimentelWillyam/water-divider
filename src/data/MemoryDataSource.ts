@@ -1,5 +1,6 @@
 import type Person from '../api/entity/Person'
 import { type IMemoryDataSource } from '../api/interface/IMemoryDataSource'
+import { type DatabasePerson } from './model/DatabasePerson'
 
 class MemoryDataSource implements IMemoryDataSource {
   private personList: Person[] = []
@@ -20,24 +21,24 @@ class MemoryDataSource implements IMemoryDataSource {
     this.personList = []
   }
 
-  insertPersonRegistry = (id: string, name: string, email: string, age: number): Person => {
-    this.personList.push({ id, name, email, age })
-    return { id, name, email, age }
+  insertPersonRegistry = async (person: Person): Promise<DatabasePerson> => {
+    this.personList.push(person)
+    return person
   }
 
-  fetchEveryPersonRegistry = (): Person[] => {
+  fetchEveryPersonRegistry = async (): Promise<DatabasePerson[]> => {
     return this.personList
   }
 
-  fetchPersonRegistry = (id: string): Person | null => {
+  fetchPersonBy = async (parameter: string, parameterValue: string): Promise<DatabasePerson | null> => {
     for (const person of this.personList) {
-      if (person.id === id) return person
+      if (parameter === 'id') if (person.id === parameterValue) return person
     }
     return null
   }
 
-  updatePersonRegistry = (id: string, personToBeUpdated: Person): Person | null => {
-    const person = this.fetchPersonRegistry(id)
+  updatePersonBy = async (parameter: string, parameterValue: string, personToBeUpdated: Person): Promise<DatabasePerson | null> => {
+    const person = await this.fetchPersonBy('id', parameterValue)
     if (person === null) return null
     if (personToBeUpdated.name !== undefined) person.name = personToBeUpdated.name
     if (personToBeUpdated.email !== undefined) person.email = personToBeUpdated.email
@@ -45,7 +46,7 @@ class MemoryDataSource implements IMemoryDataSource {
     return person
   }
 
-  deletePersonRegistry = (id: string): Person | null => {
+  deletePersonBy = async (id: string): Promise<DatabasePerson | null> => {
     for (let i = 0; i < this.personList.length; i++) {
       if (this.personList[i].id === id) {
         const person = this.personList[i]

@@ -7,7 +7,7 @@ import { type Express } from 'express'
 
 // importando interfaces
 import { type Server } from 'http'
-import type { IAPI } from './interface/IAPI'
+import { type IAPI } from './interface/IAPI'
 class API implements IAPI {
   private listener: Server | undefined
   constructor (readonly server: Express, routeList: Router[]) {

@@ -1,14 +1,13 @@
+import { type DatabasePerson } from '../../data/model/DatabasePerson'
 import type Person from '../entity/Person'
 
 export interface IMemoryDataSource {
   start: () => void
-  createPersonTable: () => void
-  insertPersonRegistry: (id: string, name: string, email: string, age: number) => Person
-  fetchEveryPersonRegistry: () => Person[]
-  fetchPersonRegistry: (id: string) => Person | null
-  updatePersonRegistry: (id: string, personToBeUpdated: Person) => Person | null
-  deletePersonRegistry: (id: string) => Person | null
-
-  
+  stop: () => void
+  insertPersonRegistry: (person: Person) => Promise<DatabasePerson>
+  fetchEveryPersonRegistry: () => Promise<DatabasePerson[]>
+  fetchPersonBy: (parameter: string, parameterValue: string) => Promise<Person | null>
+  updatePersonBy: (parameter: string, parameterValue: string, personToBeUpdated: Person) => Promise<DatabasePerson | null>
+  deletePersonBy: (parameter: string, parameterValue: string) => Promise<DatabasePerson | null>
 
 }
