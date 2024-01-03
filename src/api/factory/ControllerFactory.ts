@@ -2,7 +2,7 @@ import PersonController from '../controller/PersonController'
 import { type IControllerFactory } from '../interface/IControllerFactory'
 import { type IServiceFactory } from '../interface/IServiceFactory'
 import { type ControllerType } from '../type/ControllerType'
-import { type DataSource } from '../type/Datasource'
+import { type DataSource } from '../../data/type/Datasource'
 import { ServiceFactory } from './ServiceFactory'
 import { ValidatorFactory } from './ValidatorFactory'
 

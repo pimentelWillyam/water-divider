@@ -1,5 +1,5 @@
 import type Person from '../api/entity/Person'
-import { type IMemoryDataSource } from '../api/interface/IMemoryDataSource'
+import { type IMemoryDataSource } from './interface/IMemoryDataSource'
 import { type DatabasePerson } from './model/DatabasePerson'
 
 class MemoryDataSource implements IMemoryDataSource {

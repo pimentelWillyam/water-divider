@@ -1,6 +1,6 @@
 import { type IRouterFactory } from '../interface/IRouterFactory'
 import PersonRouter from '../router/PersonRouter'
-import { type DataSource } from '../type/Datasource'
+import { type DataSource } from '../../data/type/Datasource'
 import { type RouterType } from '../type/RouterType'
 import { ControllerFactory } from './ControllerFactory'
 

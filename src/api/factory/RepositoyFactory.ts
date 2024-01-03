@@ -1,6 +1,6 @@
 import { type IRepositoryFactory } from '../interface/IRepositoryFactory'
 import PersonRepository from '../repository/PersonRepository'
-import { type DataSource } from '../type/Datasource'
+import { type DataSource } from '../../data/type/Datasource'
 
 class RepositoryFactory implements IRepositoryFactory {
   constructor (private readonly dataSource: DataSource) {}

@@ -1,5 +1,5 @@
 import type Person from '../entity/Person'
-import { type DataSource } from '../type/Datasource'
+import { type DataSource } from '../../data/type/Datasource'
 
 interface IPersonRepository {
   readonly dataSource: DataSource

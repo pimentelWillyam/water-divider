@@ -1,6 +1,6 @@
 import type IPersonRepository from '../interface/IPersonRepository'
 import type Person from '../entity/Person'
-import { type DataSource } from '../type/Datasource'
+import { type DataSource } from '../../data/type/Datasource'
 
 class PersonRepository implements IPersonRepository {
   constructor (readonly dataSource: DataSource) {}

@@ -1,5 +1,5 @@
-import { type DatabasePerson } from '../../data/model/DatabasePerson'
-import type Person from '../entity/Person'
+import { type DatabasePerson } from '../model/DatabasePerson'
+import type Person from '../../api/entity/Person'
 
 export interface IMemoryDataSource {
   start: () => Promise<void>

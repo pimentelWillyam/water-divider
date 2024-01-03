@@ -1,7 +1,7 @@
 import { type IRepositoryFactory } from '../interface/IRepositoryFactory'
 import { type IServiceFactory } from '../interface/IServiceFactory'
 import PersonService from '../service/PersonService'
-import { type DataSource } from '../type/Datasource'
+import { type DataSource } from '../../data/type/Datasource'
 import { type Service } from '../type/Service'
 import { type ServiceType } from '../type/ServiceType'
 import { NameNormalizerFactory } from './NameNormalizerFactory'

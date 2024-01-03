@@ -1,5 +1,5 @@
-import { type DataSourceType } from '../type/DataSourceType'
-import { type DataSource } from '../type/Datasource'
+import { type DataSourceType } from '../../data/type/DataSourceType'
+import { type DataSource } from '../../data/type/Datasource'
 
 interface IDataSourceFactory {
   fabricate: (dataSourceType: DataSourceType) => DataSource
