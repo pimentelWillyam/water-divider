@@ -18,13 +18,13 @@ test('Deve ser possível cadastrar uma pessoa', () => {
   expect(person.age).toBe(22)
 })
 
-test('Deve ser possível buscar uma lista com as pessoas cadastrada', () => {
+test('Deve ser possível buscar uma lista com as pessoas cadastrada', async () => {
   const memoryDataSource = new MemoryDataSource()
   const personRepository = new PersonRepository(memoryDataSource)
   const idGenerator = new UUIDGenerator()
   const nameNormalizer = new NameNormalizer()
   const personService = new PersonService(personRepository, idGenerator, nameNormalizer)
-  const person = personService.create('willyam', 'willyampimenteldev@gmail.com', 22)
+  const person = await personService.create('willyam', 'willyampimenteldev@gmail.com', 22)
   const personList = personService.getAll()
   expect(person.name).toBe(personList[0].name)
   expect(person.email).toBe(personList[0].email)
