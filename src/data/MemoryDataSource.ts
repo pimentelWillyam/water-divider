@@ -46,9 +46,9 @@ class MemoryDataSource implements IMemoryDataSource {
     return person
   }
 
-  deletePersonBy = async (id: string): Promise<DatabasePerson | null> => {
+  deletePersonBy = async (parameter: string, parameterValue: string): Promise<DatabasePerson | null> => {
     for (let i = 0; i < this.personList.length; i++) {
-      if (this.personList[i].id === id) {
+      if (this.personList[i].id === parameterValue) {
         const person = this.personList[i]
         this.personList.splice(i, 1)
         return person
