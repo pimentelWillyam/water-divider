@@ -12,9 +12,9 @@ describe('User integration tests', () => {
     api.start(4000)
   })
 
-  afterEach(() => {
+  afterEach(async () => {
     api.stop()
-    dataSource.dropPersonTable()
+    await dataSource.stop()
   })
   test('Deve inserir uma pessoa no banco em memória', async () => {
     const response = await request(api.server).post('/api/person').send({
