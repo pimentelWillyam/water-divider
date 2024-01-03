@@ -1,14 +1,14 @@
 const mariadbQueries = {
   createBoilerplateDatabase: 'CREATE DATABASE IF NOT EXISTS boilerplate ;',
   useBoilerplateDatabase: 'USE boilerplate ;',
-  createPersonTable: `CREATE TABLE IF NOT EXISTS person (
+  createPersonTable: `CREATE TABLE IF NOT EXISTS boilerplate.person (
     id VARCHAR(255) NOT NULL,
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     age INT NOT NULL,
     PRIMARY KEY (id)
   );`,
-  insertPersonRegistry: 'INSERT INTO person (id, name, email, age) VALUES (?,?,?,?);',
+  insertPersonRegistry: 'INSERT INTO boilerplate.person (id, name, email, age) VALUES (?,?,?,?);',
 
   fetchEveryPersonRegistry: 'SELECT * FROM boilerplate.person;',
 
