@@ -25,11 +25,11 @@ class MariadbDataSource implements IMariadbDataSource {
     console.log('Database stopped')
   }
 
-  async getConnectionFromPool (): Promise<PoolConnection> {
+  private async getConnectionFromPool (): Promise<PoolConnection> {
     return await this.pool.getConnection()
   }
 
-  async releaseConnection (connection: PoolConnection): Promise<void> {
+  private async releaseConnection (connection: PoolConnection): Promise<void> {
     await connection.end()
   }
 
