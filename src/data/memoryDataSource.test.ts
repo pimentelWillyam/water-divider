@@ -39,7 +39,7 @@ test('Deve ser possível atualizar uma pessoa cadastrada', async () => {
 test('Deve ser possível deletar uma pessoa cadastrada', async () => {
   const memoryDataSource = new MemoryDataSource()
   await memoryDataSource.insertPersonRegistry({ id: 'aaaaaaaaa', name: 'willyam', email: 'willyampimenteldev@gmail.com', age: 22 })
-  const deletedPerson = await memoryDataSource.deletePersonBy('aaaaaaaaa') as Person
+  const deletedPerson = await memoryDataSource.deletePersonBy('id', 'aaaaaaaaa') as Person
   expect(deletedPerson.name).toBe('willyam')
   expect(deletedPerson.email).toBe('willyampimenteldev@gmail.com')
   expect(deletedPerson.age).toBe(22)
