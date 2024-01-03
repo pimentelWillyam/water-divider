@@ -5,19 +5,19 @@ import { type DatabasePerson } from './model/DatabasePerson'
 class MemoryDataSource implements IMemoryDataSource {
   private personList: Person[] = []
 
-  readonly start = (): void => {
-    this.createPersonTable()
+  readonly start = async (): Promise<void> => {
+    await this.createPersonTable()
   }
 
-  readonly stop = (): void => {
-    this.createPersonTable()
+  readonly stop = async (): Promise<void> => {
+    await this.createPersonTable()
   }
 
-  readonly createPersonTable = (): void => {
+  readonly createPersonTable = async (): Promise<void> => {
     this.personList = []
   }
 
-  readonly dropPersonTable = (): void => {
+  readonly dropPersonTable = async (): Promise<void> => {
     this.personList = []
   }
 
