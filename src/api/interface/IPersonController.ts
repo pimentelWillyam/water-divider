@@ -6,14 +6,11 @@ interface IPersonController {
   readonly personService: IPersonService
   readonly personValidator: IPersonValidator
 
-  create: (req: Request, res: Response) => Response<any, Record<string, any>>
-  getAll: (res: Response) => Response<any, Record<string, any>>
-  get: (req: Request, res: Response) => Response<any, Record<string, any>>
-  update: (req: Request, res: Response) => Response<any, Record<string, any>>
-  delete: (req: Request, res: Response) => Response<any, Record<string, any>>
-
-
-
+  create: (req: Request, res: Response) => Promise<Response<any, Record<string, any>>>
+  getAll: (res: Response) => Promise<Response<any, Record<string, any>>>
+  get: (req: Request, res: Response) => Promise<Response<any, Record<string, any>>>
+  update: (req: Request, res: Response) => Promise<Response<any, Record<string, any>>>
+  delete: (req: Request, res: Response) => Promise<Response<any, Record<string, any>>>
 }
 
 export default IPersonController
