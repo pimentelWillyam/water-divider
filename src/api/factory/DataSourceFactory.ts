@@ -1,15 +1,18 @@
+import MariadbDataSource from '../../data/MariadbDataSource'
 import MemoryDataSource from '../../data/MemoryDataSource'
 import { type IDataSourceFactory } from '../interface/IDataSourceFactory'
 import { type DataSourceType } from '../type/DataSourceType'
+import { dataSourceConfig } from '../../data/dataSourceConfig'
+import { type DataSource } from '../type/Datasource'
 
 class DataSourceFactory implements IDataSourceFactory {
-  fabricate (dataSourceType: DataSourceType): MemoryDataSource {
+  fabricate (dataSourceType: DataSourceType): DataSource {
     switch (dataSourceType) {
       case 'memory':
         return new MemoryDataSource()
 
       case 'mariadb':
-        return new MemoryDataSource()
+        return new MariadbDataSource(dataSourceConfig.mariadb.host, dataSourceConfig.mariadb.port, dataSourceConfig.mariadb.userName, dataSourceConfig.mariadb.password, dataSourceConfig.mariadb.connectionLimit)
       default:
         throw new Error('Error during data source creation')
     }
