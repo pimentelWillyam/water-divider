@@ -38,9 +38,10 @@ class PostgresDataSource implements IOutOfMemoryDataSource {
   }
 
   async bootstrap2 (): Promise<void> {
-    if (await this.databaseExists())
+    if (!await this.databaseExists()) await this.createTables()
+    await this.createTables()
     // console.log('test')
-    // await this.createTables()
+    //
   }
 
   private async endConnectionPool (): Promise<void> {
@@ -63,7 +64,6 @@ class PostgresDataSource implements IOutOfMemoryDataSource {
   private async createTable (tableName: TableType): Promise<void> {
     switch (tableName) {
       case 'person':
-        console.log('personn')
         await this.connectionPool.query(postgresQueries.createPersonTable)
 
         return
