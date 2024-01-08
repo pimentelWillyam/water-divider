@@ -11,7 +11,6 @@ class MariadbDataSource implements IMariadbDataSource {
   private readonly pool: Pool
 
   constructor (private readonly hostAddress: string, private readonly port: number, private readonly userName: string, private readonly password: string, private readonly connectionLimit: number) {
-    console.log(hostAddress, port, userName, password, connectionLimit)
     this.pool = createPool({ host: this.hostAddress, port: this.port, user: this.userName, password: this.password, connectionLimit: this.connectionLimit })
   }
 
@@ -96,7 +95,6 @@ class MariadbDataSource implements IMariadbDataSource {
   async fetchPersonBy (parameter: string, parameterValue: string): Promise<DatabasePerson | null> {
     const connection = await this.getConnectionFromPool()
     const personList = await connection.query(mariadbQueries.fetchPersonRegistryBy, [parameter, parameterValue])
-    console.log(personList)
     await this.releaseConnection(connection)
     if (personList[0] === undefined) return null
     else return personList[0]
