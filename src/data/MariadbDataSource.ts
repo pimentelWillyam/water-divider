@@ -4,10 +4,10 @@ import { type DatabasePerson } from './model/DatabasePerson'
 import { mariadbQueries } from './queries/mariadbQueries'
 import { type DatabaseType } from './type/DatabaseType'
 import { type TableType } from './type/TableType'
-import { type IOutOfMemoryDataSource } from './interface/IOutOfMemoryDataSource'
+import { type IDataSource } from './interface/IDataSource'
 import type Person from '../api/entity/Person'
 
-class MariadbDataSource implements IOutOfMemoryDataSource {
+class MariadbDataSource implements IDataSource {
   private readonly pool: Pool
 
   constructor (private readonly hostAddress: string, private readonly port: number, private readonly userName: string, private readonly password: string, private readonly connectionLimit: number) {
