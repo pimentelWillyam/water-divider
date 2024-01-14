@@ -12,7 +12,7 @@ class DataSourceFactory implements IDataSourceFactory {
         return new MemoryDataSource()
 
       case 'mariadb':
-        return new MariadbDataSource(dataSourceConfig.mariadb.host, dataSourceConfig.mariadb.port, dataSourceConfig.mariadb.userName, dataSourceConfig.mariadb.password, dataSourceConfig.mariadb.connectionLimit)
+        return new MariadbDataSource(dataSourceConfig.mariadb.host, dataSourceConfig.mariadb.port, dataSourceConfig.mariadb.user, dataSourceConfig.mariadb.password, dataSourceConfig.mariadb.connectionLimit)
       default:
         throw new Error('Error during data source creation')
     }
