@@ -1,8 +1,8 @@
 import type Person from '../api/entity/Person'
-import { type IInMemoryDataSource } from './interface/IInMemoryDataSource'
+import { type IDataSource } from './interface/IDataSource'
 import { type DatabasePerson } from './model/DatabasePerson'
 
-class MemoryDataSource implements IInMemoryDataSource {
+class MemoryDataSource implements IDataSource {
   private personList: Person[] = []
 
   readonly start = async (): Promise<void> => {
