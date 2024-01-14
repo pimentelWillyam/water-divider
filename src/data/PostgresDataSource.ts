@@ -1,14 +1,14 @@
 import { type DatabasePerson } from './model/DatabasePerson'
 // import { type DatabaseType } from './type/DatabaseType'
 import { type TableType } from './type/TableType'
-import { type IOutOfMemoryDataSource } from './interface/IOutOfMemoryDataSource'
+import { type IDataSource } from './interface/IDataSource'
 import type Person from '../api/entity/Person'
 
 import { postgresQueries } from './queries/postgresQueries'
 import { Pool } from 'pg'
 import { type DataSourceConnectionConfig } from './type/DataSourceConnectionConfig'
 
-class PostgresDataSource implements IOutOfMemoryDataSource {
+class PostgresDataSource implements IDataSource {
   private readonly connectionPool: Pool
   // const client = new Client()
   // await client.connect()
