@@ -1,3 +1,3 @@
-type DataSourceType = 'memory' | 'mariadb'
+type DataSourceType = 'memory' | 'mariadb' | 'postgres'
 
 export type { DataSourceType }
