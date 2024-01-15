@@ -1,17 +1,17 @@
 
 const postgresQueries = {
-  createBoilerplateDatabase: 'CREATE DATABASE  EXISTS boilerplate ;',
+  createBoilerplateDatabase: 'CREATE DATABASE IF NOT EXISTS boilerplate ;',
   verifyIfBoilerplateDatabaseExists: "SELECT EXISTS (SELECT 1 FROM pg_database WHERE datname = 'boilerplate') AS exists ;",
   verifyIfPersonTableExists: "SELECT EXISTS (SELECT 1 FROM pg_database WHERE datname = 'boilerplate') AS exists ;",
   useBoilerplateDatabase: 'USE boilerplate ;',
-  createPersonTable: `CREATE TABLE person (
+  createPersonTable: `CREATE TABLE IF NOT EXISTS person (
       id VARCHAR(255) NOT NULL,
       name VARCHAR(255) NOT NULL,
       email VARCHAR(255) NOT NULL,
       age INT NOT NULL,
       PRIMARY KEY (id)
     );`,
-  insertPersonRegistry: 'INSERT INTO boilerplate.person (id, name, email, age) VALUES ($1,$2,$3,$4) ;',
+  insertPersonRegistry: 'INSERT INTO person (id, name, email, age) VALUES ($1,$2,$3,$4) ;',
   fetchEveryPersonRegistry: 'SELECT * FROM boilerplate.person ;',
   fetchPersonRegistryBy: 'SELECT * FROM boilerplate.person WHERE $1 = $2 ;',
   updatePersonRegistryBy: ` UPDATE boilerplate.person SET
