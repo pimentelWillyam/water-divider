@@ -9,7 +9,7 @@ import { Pool } from 'pg'
 import { type DataSourceConnectionConfig } from './type/DataSourceConnectionConfig'
 
 class PostgresDataSource implements IDataSource {
-  private readonly connectionPool: Pool
+  private connectionPool: Pool | undefined
   // const client = new Client()
   // await client.connect()
 
@@ -17,12 +17,12 @@ class PostgresDataSource implements IDataSource {
   // console.log(res.rows[0].message) // Hello world!
   // await client.end()
 
-  constructor (private readonly connectionConfig: DataSourceConnectionConfig) {
-    this.connectionPool = new Pool({ host: this.connectionConfig.host, port: this.connectionConfig.port, user: this.connectionConfig.user, password: this.connectionConfig.password, max: this.connectionConfig.connectionLimit })
-  }
+  constructor (private readonly connectionConfig: DataSourceConnectionConfig) {}
 
   async start (): Promise<void> {
+    this.connectionPool = new Pool({ host: this.connectionConfig.host, port: this.connectionConfig.port, user: this.connectionConfig.user, password: this.connectionConfig.password, max: this.connectionConfig.connectionLimit })
     await this.bootstrap()
+    this.connectionPool = new Pool({ host: this.connectionConfig.host, port: this.connectionConfig.port, user: this.connectionConfig.user, password: this.connectionConfig.password, max: this.connectionConfig.connectionLimit, database: 'boilerplate' })
     console.log('Database started')
   }
 
@@ -32,8 +32,7 @@ class PostgresDataSource implements IDataSource {
   }
 
   private async bootstrap (): Promise<void> {
-    if (await this.databaseExists()) await this.createNecessaryDatabases()
-    console.log('test')
+    if (!await this.databaseExists()) await this.createNecessaryDatabases()
     await this.createTables()
   }
 
@@ -45,23 +44,27 @@ class PostgresDataSource implements IDataSource {
   }
 
   private async endConnectionPool (): Promise<void> {
-    await this.connectionPool.end()
+    if (this.connectionPool !== undefined) await this.connectionPool.end()
   }
 
   private async createNecessaryDatabases (): Promise<void> {
+    console.log('criando bancos necessários')
     await this.createBoilerplateDatabase()
   }
 
   private async databaseExists (): Promise<boolean> {
+    if (this.connectionPool === undefined) throw new Error('Pool de conexões indefinida')
     const response = await this.connectionPool.query(postgresQueries.verifyIfBoilerplateDatabaseExists)
     return response.rows[0].exists
   }
 
   async createBoilerplateDatabase (): Promise<void> {
+    if (this.connectionPool === undefined) throw new Error('Pool de conexões indefinida')
     await this.connectionPool.query(postgresQueries.createBoilerplateDatabase)
   }
 
   private async createTable (tableName: TableType): Promise<void> {
+    if (this.connectionPool === undefined) throw new Error('Pool de conexões indefinida')
     switch (tableName) {
       case 'person':
         await this.connectionPool.query(postgresQueries.createPersonTable)
@@ -75,6 +78,7 @@ class PostgresDataSource implements IDataSource {
 
   private async tableExists (tableName: string): Promise<boolean> {
     let queryResult
+    if (this.connectionPool === undefined) throw new Error('Pool de conexões indefinida')
     switch (tableName) {
       case 'person':
         queryResult = (await this.connectionPool.query(postgresQueries.verifyIfPersonTableExists))
@@ -90,18 +94,21 @@ class PostgresDataSource implements IDataSource {
   }
 
   async insertPersonRegistry (person: Person): Promise<DatabasePerson> {
+    if (this.connectionPool === undefined) throw new Error('Pool de conexões indefinida')
     await this.connectionPool.query(postgresQueries.insertPersonRegistry, [person.id, person.name, person.email, person.age])
 
     return person
   }
 
   async fetchEveryPersonRegistry (): Promise<DatabasePerson[]> {
+    if (this.connectionPool === undefined) throw new Error('Pool de conexões indefinida')
     const queryResult = await this.connectionPool.query(postgresQueries.fetchEveryPersonRegistry)
 
     return queryResult.rows[0]
   }
 
   async fetchPersonBy (parameter: string, parameterValue: string): Promise<DatabasePerson | null> {
+    if (this.connectionPool === undefined) throw new Error('Pool de conexões indefinida')
     const queryResult = await this.connectionPool.query(postgresQueries.fetchPersonRegistryBy, [parameter, parameterValue])
 
     if (queryResult.rows[0] === undefined) return null
@@ -109,6 +116,7 @@ class PostgresDataSource implements IDataSource {
   }
 
   async updatePersonBy (parameter: string, parameterValue: string, personToUpdate: Person): Promise<DatabasePerson> {
+    if (this.connectionPool === undefined) throw new Error('Pool de conexões indefinida')
     await this.connectionPool.query(postgresQueries.updatePersonRegistryBy, [personToUpdate.id, personToUpdate.name, personToUpdate.email, personToUpdate.age, parameter, parameterValue])
 
     return personToUpdate
@@ -116,6 +124,7 @@ class PostgresDataSource implements IDataSource {
 
   async deletePersonBy (parameter: string, parameterValue: string): Promise<DatabasePerson | null> {
     const person = await this.fetchPersonBy(parameter, parameterValue)
+    if (this.connectionPool === undefined) throw new Error('Pool de conexões indefinida')
 
     if (person === null) return null
     await this.connectionPool.query(postgresQueries.deletePersonRegistryBy, [parameter, parameterValue])
