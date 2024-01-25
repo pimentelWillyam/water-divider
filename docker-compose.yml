@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  app:
+    image: node:lts # Versão do Node.js
+    container_name: water-divider-api
+    restart: always
+    working_dir: /app
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+    command: yarn server
