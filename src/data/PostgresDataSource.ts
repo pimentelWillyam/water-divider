@@ -55,6 +55,8 @@ class PostgresDataSource implements IDataSource {
   private async databaseExists (): Promise<boolean> {
     if (this.connectionPool === undefined) throw new Error('Pool de conexões indefinida')
     const response = await this.connectionPool.query(postgresQueries.verifyIfBoilerplateDatabaseExists)
+    console.log(postgresQueries.verifyIfBoilerplateDatabaseExists)
+    console.log(response.rows[0].exists)
     return response.rows[0].exists
   }
 
@@ -67,6 +69,7 @@ class PostgresDataSource implements IDataSource {
     if (this.connectionPool === undefined) throw new Error('Pool de conexões indefinida')
     switch (tableName) {
       case 'person':
+        console.log('criando tabela person')
         await this.connectionPool.query(postgresQueries.createPersonTable)
 
         return

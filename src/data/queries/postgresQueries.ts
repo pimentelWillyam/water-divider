@@ -1,10 +1,11 @@
 
 const postgresQueries = {
-  createBoilerplateDatabase: 'CREATE DATABASE IF NOT EXISTS boilerplate ;',
+  createBoilerplateDatabase: 'CREATE DATABASE boilerplate ;',
   verifyIfBoilerplateDatabaseExists: "SELECT EXISTS (SELECT 1 FROM pg_database WHERE datname = 'boilerplate') AS exists ;",
-  verifyIfPersonTableExists: "SELECT EXISTS (SELECT 1 FROM pg_database WHERE datname = 'boilerplate') AS exists ;",
+  // verifyIfPersonTableExists: "SELECT EXISTS (SELECT 1 FROM pg_class WHERE relname  = 'person' );",
+  verifyIfPersonTableExists: "SELECT EXISTS (SELECT * FROM information_schema.tables WHERE table_schema = 'company3' AND table_name = 'person' );",
   useBoilerplateDatabase: 'USE boilerplate ;',
-  createPersonTable: `CREATE TABLE IF NOT EXISTS person (
+  createPersonTable: `CREATE TABLE person (
       id VARCHAR(255) NOT NULL,
       name VARCHAR(255) NOT NULL,
       email VARCHAR(255) NOT NULL,
