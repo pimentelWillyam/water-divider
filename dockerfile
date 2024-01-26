@@ -1,9 +1,10 @@
 FROM NODE:lts
 
-WORKDIR /app
+WORKDIR /usr/src/app
 
-COPY package.json ./
-
+COPY package+.json ./
+RUN npm install yarn
+RUN yarn server
 COPY . .
 
 ENV MARIADB_HOST = localhost 
@@ -11,6 +12,4 @@ ENV MARIADB_PORT = 3306
 ENV MARIADB_USERNAME = root
 ENV MARIADB_PASSWORD = mariadb
 
-EXPOSE 8080
-
-CMD ["npm", "install", "yarn","npm", "run", "server"]
+EXPOSE 4000
