@@ -2,7 +2,7 @@ import MariadbDataSource from '../../data/MariadbDataSource'
 import MemoryDataSource from '../../data/MemoryDataSource'
 import { type IDataSourceFactory } from '../interface/IDataSourceFactory'
 import { type DataSourceType } from '../../data/type/DataSourceType'
-import { dataSourceConfig } from '../../data/dataSourceConfig'
+import { config } from '../../config'
 import { type DataSource } from '../../data/type/Datasource'
 import { PostgresDataSource } from '../../data/PostgresDataSource'
 
@@ -13,10 +13,10 @@ class DataSourceFactory implements IDataSourceFactory {
         return new MemoryDataSource()
 
       case 'mariadb':
-        return new MariadbDataSource(dataSourceConfig.mariadb.host, dataSourceConfig.mariadb.port, dataSourceConfig.mariadb.user, dataSourceConfig.mariadb.password, dataSourceConfig.mariadb.connectionLimit)
+        return new MariadbDataSource(config.dataSource.mariadb.host, config.dataSource.mariadb.port, config.dataSource.mariadb.user, config.dataSource.mariadb.password, config.dataSource.mariadb.connectionLimit)
 
       case 'postgres':
-        return new PostgresDataSource(dataSourceConfig.postgres)
+        return new PostgresDataSource(config.dataSource.postgres)
       default:
         throw new Error('Error during data source creation')
     }
