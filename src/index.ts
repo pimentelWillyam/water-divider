@@ -6,7 +6,7 @@ dotenv.config()
 
 class Main {
   async start (): Promise<void> {
-    const dataSource = new DataSourceFactory().fabricate('postgres')
+    const dataSource = new DataSourceFactory().fabricate('memory')
     const api = new APIFactory(dataSource).fabricate()
     api.start(4000)
     await dataSource.start()
