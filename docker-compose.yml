@@ -3,35 +3,39 @@ version: "3"
 services:
   api:
     image: node:lts
-    container_name: "api"
+    container_name: api
     restart: always
     depends_on:
       - postgres
       - mariadb
     ports:
-      - "4000:4000"
+      - 4000:4000
+    volumes:
+      - .:/usr/src/api
+    working_dir: /usr/src/api
+    command: yarn server
   postgres:
     image: postgres:alpine3.19
-    container_name: "postgres"
+    container_name: postgres
     restart: always
     volumes:
-      - .:/app
+      - .:/postgres
     environment:
       - POSTGRES_HOST= localhost
       - POSTGRES_PORT= 3306
       - POSTGRES_USERNAME= mariadb
       - POSTGRES_PASSWORD= value
     ports:
-      - "3306:3306"
+      - 3306:3306
   mariadb:
     image: mariadb:lts
     container_name: mariadb
     restart: always
     volumes:
-      - .:/app
+      - .:/mariadb
     environment:
       MARIADB_HOST: localhost
       MARIADB_PORT: 3306
       MARIADB_USERNAME: root
       MARIADB_PASSWORD: mariadb
-      MARIADB_ROOT_PASSWORD: "mariadb"
+      MARIADB_ROOT_PASSWORD: mariadb
