@@ -1,18 +1,18 @@
 const config = {
   dataSource: {
     mariadb: {
-      host: 'localhost',
-      port: 3306,
-      user: 'root',
-      password: 'mariadb',
-      connectionLimit: 5
+      host: process.env.MARIADB_HOST ?? 'localhost',
+      port: parseInt(process.env.MARIADB_PORT as string) ?? 3306,
+      user: process.env.MARIADB_USER ?? 'root',
+      password: process.env.MARIADB_PASSWORD ?? 'mariadb',
+      connectionLimit: parseInt(process.env.MARIADB_CONNECTION_LIMIT as string) ?? 5
     },
     postgres: {
-      host: 'localhost',
-      user: 'postgres',
-      password: 'postgres',
-      port: 5432,
-      connectionLimit: 5
+      host: process.env.MARIADB_HOST ?? 'localhost',
+      port: parseInt(process.env.MARIADB_PORT as string) ?? 5432,
+      user: process.env.MARIADB_USER ?? 'postgres',
+      password: process.env.MARIADB_PASSWORD ?? 'postgres',
+      connectionLimit: parseInt(process.env.MARIADB_CONNECTION_LIMIT as string) ?? 5
 
     },
     api: {
