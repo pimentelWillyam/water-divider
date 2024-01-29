@@ -1,10 +1,9 @@
-FROM NODE:lts
+FROM node:lts
 
-WORKDIR /usr/water-divider
+WORKDIR /usr/app
 
-COPY package+.json ./
-RUN npm install yarn
-RUN yarn
+COPY package*.json ./
+RUN npm install
 COPY . .
 EXPOSE 4000
-CMD yarn server
+CMD ["npm","run", "server"]
