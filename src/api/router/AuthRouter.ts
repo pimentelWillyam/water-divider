@@ -3,19 +3,19 @@ import * as express from 'express'
 import { type Router, type Request, type Response } from 'express'
 
 // importando service da rota
-import type IPersonController from '../interface/IPersonController'
-import type IPersonRouter from '../interface/IPersonRouter'
+import type IAuthController from '../interface/IAuthController'
+import type IAuthRouter from '../interface/IAuthRouter'
 
 // criando rotas
 
-class PersonRouter implements IPersonRouter {
+class AuthRouter implements IAuthRouter {
   readonly routes: Router
-  constructor (readonly personController: IPersonController) {
+  constructor (readonly authController: IAuthController) {
     this.routes = express.Router()
     this.routes.post('/auth', (req: Request, res: Response) => {
-      void personController.create(req, res)
+      void authController.authenticate(req, res)
     })
   }
 }
 
-export default PersonRouter
+export default AuthRouter
