@@ -1,7 +1,7 @@
-import type Person from '../entity/Person'
+import type AuthReponse from '../entity/AuthResponse'
 
 interface IAuthService {
-  authenticate: (login: string, password: string) => Promise<Person>
+  authenticate: (login: string) => Promise<AuthReponse>
 
 }
 
