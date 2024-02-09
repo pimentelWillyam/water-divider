@@ -10,7 +10,9 @@ class AuthController implements IAuthController {
 
   async authenticate (req: Request, res: Response): Promise<Response<any, Record<string, any>>> {
     try {
-      const auth = await this.authService.authenticate(req.body.login, req.body.password)
+      const errorList = await this.authValidator.validateAuthentication(req.body.login, req.body.password)
+      if (errorList.length !== 0) return res.status(400).json({ errorList })
+      const auth = await this.authService.authenticate(req.body.login)
       return res.status(200).json(auth)
     } catch (error) {
       console.error(error)
