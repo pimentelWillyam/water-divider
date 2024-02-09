@@ -3,9 +3,10 @@ import { type Request, type Response } from 'express'
 import type IAuthController from '../interface/IAuthController'
 import type IAuthService from '../interface/IAuthService'
 import KnownError from '../validator/errors/KnownError'
+import type IAuthValidator from '../interface/IAuthValidator'
 
 class AuthController implements IAuthController {
-  constructor (readonly authService: IAuthService) {}
+  constructor (readonly authService: IAuthService, readonly authValidator: IAuthValidator) {}
 
   async authenticate (req: Request, res: Response): Promise<Response<any, Record<string, any>>> {
     try {
