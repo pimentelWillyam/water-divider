@@ -7,6 +7,8 @@ import { type ServiceType } from '../type/ServiceType'
 import { NameNormalizerFactory } from './NameNormalizerFactory'
 import { RepositoryFactory } from './RepositoyFactory'
 import { UUIDGeneratorFactory } from './UUIDGeneratorFactory'
+import AuthService from '../service/AuthService'
+import { JsonWebTokenGenerator } from '../helper/JsonWebTokenGenerator'
 
 class ServiceFactory implements IServiceFactory {
   private readonly uuidGeneratorFactory = new UUIDGeneratorFactory()
@@ -20,6 +22,8 @@ class ServiceFactory implements IServiceFactory {
     switch (serviceType) {
       case 'person':
         return new PersonService(this.repositoryFactory.fabricate('person'), this.uuidGeneratorFactory.fabricate(), this.nameNormalizerFactory.fabricate())
+      case 'auth':
+        return new AuthService(this.repositoryFactory.fabricate('auth'), new JsonWebTokenGenerator())
 
       default:
         throw new Error('Error at validator fabrication')
