@@ -1,3 +1,3 @@
-type ServiceType = 'person'
+type ServiceType = 'person' | 'auth'
 
 export type { ServiceType }
