@@ -52,7 +52,7 @@ class PersonController implements IPersonController {
   }
 
   async update (req: Request, res: Response): Promise<Response<any, Record<string, any>>> {
-    const errorList = this.personValidator.validateUpdate(req.body.name, req.body.email, req.body.age)
+    const errorList = this.personValidator.validateUpdate(req.body.login, req.body.password, req.body.name, req.body.email, req.body.age)
     if (errorList.length !== 0) return res.status(400).json({ errorList })
     try {
       const person = await this.personService.update(req.params.id, req.body)
