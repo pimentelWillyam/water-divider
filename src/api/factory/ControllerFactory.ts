@@ -17,6 +17,8 @@ class ControllerFactory implements IControllerFactory {
     switch (controllerType) {
       case 'person':
         return new PersonController(this.serviceFactory.fabricate('person'), this.validatorFactory.fabricate('person'))
+      case 'auth':
+        return new PersonController(this.serviceFactory.fabricate('auth'), this.validatorFactory.fabricate('auth'))
       default:
         throw new Error('Error when creating controller')
     }
