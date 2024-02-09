@@ -7,8 +7,8 @@ import type IPersonService from '../interface/IPersonService'
 class PersonService implements IPersonService {
   constructor (readonly PersonRepository: IPersonRepository, readonly idGenerator: UUIDGenerator, readonly fullNameNormalizer: NameNormalizer) {}
 
-  async create (name: string, email: string, age: number): Promise<Person> {
-    return await this.PersonRepository.create(this.idGenerator.generate(), this.fullNameNormalizer.normalize(name), email, age)
+  async create (login: string, password: string, name: string, email: string, age: number): Promise<Person> {
+    return await this.PersonRepository.create(this.idGenerator.generate(), login, password, this.fullNameNormalizer.normalize(name), email, age)
   }
 
   async getAll (): Promise<Person[]> {
