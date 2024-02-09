@@ -60,6 +60,8 @@ class ErrorFactory implements IErrorFactory {
     if (errorType === 'invalid email') return new InvalidEmailError()
     if (errorType === 'name has any number') return new NameHasAnyNumberError()
     if (errorType === 'name length below four letters') return new NameLengthBelowFourLettersError()
+    if (errorType === 'invalid login or password') return new InvalidLoginOrPassword()
+
     else return new ServerError()
   }
 }
