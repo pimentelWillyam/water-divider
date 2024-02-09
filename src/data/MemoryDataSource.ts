@@ -1,6 +1,5 @@
 import type Person from '../api/entity/Person'
 import { type IDataSource } from './interface/IDataSource'
-import { type DatabasePerson } from './model/DatabasePerson'
 
 class MemoryDataSource implements IDataSource {
   private personList: Person[] = []
@@ -21,23 +20,23 @@ class MemoryDataSource implements IDataSource {
     this.personList = []
   }
 
-  insertPersonRegistry = async (person: Person): Promise<DatabasePerson> => {
+  insertPersonRegistry = async (person: Person): Promise<Person> => {
     this.personList.push(person)
     return person
   }
 
-  fetchEveryPersonRegistry = async (): Promise<DatabasePerson[]> => {
+  fetchEveryPersonRegistry = async (): Promise<Person[]> => {
     return this.personList
   }
 
-  fetchPersonBy = async (parameter: string, parameterValue: string): Promise<DatabasePerson | null> => {
+  fetchPersonBy = async (parameter: string, parameterValue: string): Promise<Person | null> => {
     for (const person of this.personList) {
       if (parameter === 'id') if (person.id === parameterValue) return person
     }
     return null
   }
 
-  updatePersonBy = async (parameter: string, parameterValue: string, personToBeUpdated: Person): Promise<DatabasePerson | null> => {
+  updatePersonBy = async (parameter: string, parameterValue: string, personToBeUpdated: Person): Promise<Person | null> => {
     const person = await this.fetchPersonBy('id', parameterValue)
     if (person === null) return null
     if (personToBeUpdated.name !== undefined) person.name = personToBeUpdated.name
@@ -46,7 +45,7 @@ class MemoryDataSource implements IDataSource {
     return person
   }
 
-  deletePersonBy = async (parameter: string, parameterValue: string): Promise<DatabasePerson | null> => {
+  deletePersonBy = async (parameter: string, parameterValue: string): Promise<Person | null> => {
     for (let i = 0; i < this.personList.length; i++) {
       if (this.personList[i].id === parameterValue) {
         const person = this.personList[i]
