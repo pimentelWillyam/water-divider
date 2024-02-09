@@ -4,8 +4,10 @@ import type KnownError from './errors/KnownError'
 
 class PersonValidator implements IPersonValidator {
   constructor (readonly errorFactory: IErrorFactory) {}
-  validateCreation (name: string, email: string, age: number): KnownError[] {
+  validateCreation (login: string, password: string, name: string, email: string, age: number): KnownError[] {
     const errorList: KnownError[] = []
+    if (this.valueIsNullOrUndefinedOrEmpty(login)) errorList.push(this.errorFactory.create('invalid data type', 'login'))
+    if (this.valueIsNullOrUndefinedOrEmpty(password)) errorList.push(this.errorFactory.create('invalid data type', 'senha'))
     if (this.valueIsNullOrUndefinedOrEmpty(name)) errorList.push(this.errorFactory.create('invalid data type', 'nome'))
     if (this.valueIsNullOrUndefinedOrEmpty(email)) errorList.push(this.errorFactory.create('invalid data type', 'email'))
     if (this.valueIsNullOrUndefinedOrEmpty(age)) errorList.push(this.errorFactory.create('invalid data type', 'idade'))
@@ -19,6 +21,7 @@ class PersonValidator implements IPersonValidator {
 
   validateUpdate (name: string, email: string, age: number): KnownError[] {
     const errorList: KnownError[] = []
+    if (password !== undefined && this.valueIsNullOrUndefinedOrEmpty(password)) errorList.push(this.errorFactory.create('invalid data type', 'senha'))
     if (name !== undefined && this.valueIsNullOrEmpty(name)) errorList.push(this.errorFactory.create('invalid data type', 'nome'))
     if (email !== undefined && this.valueIsNullOrEmpty(email)) errorList.push(this.errorFactory.create('invalid data type', 'email'))
     if (age !== undefined && this.valueIsNullOrEmpty(age)) errorList.push(this.errorFactory.create('invalid data type', 'idade'))
