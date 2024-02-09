@@ -19,8 +19,9 @@ class PersonValidator implements IPersonValidator {
     return errorList
   }
 
-  validateUpdate (name: string, email: string, age: number): KnownError[] {
+  validateUpdate (login: string, password: string, name: string, email: string, age: number): KnownError[] {
     const errorList: KnownError[] = []
+    if (login !== undefined && this.valueIsNullOrUndefinedOrEmpty(login)) errorList.push(this.errorFactory.create('invalid data type', 'login'))
     if (password !== undefined && this.valueIsNullOrUndefinedOrEmpty(password)) errorList.push(this.errorFactory.create('invalid data type', 'senha'))
     if (name !== undefined && this.valueIsNullOrEmpty(name)) errorList.push(this.errorFactory.create('invalid data type', 'nome'))
     if (email !== undefined && this.valueIsNullOrEmpty(email)) errorList.push(this.errorFactory.create('invalid data type', 'email'))
