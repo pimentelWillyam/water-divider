@@ -1,3 +1,3 @@
-type RouterType = 'person'
+type RouterType = 'person' | 'auth'
 
 export type { RouterType }
