@@ -1,6 +1,5 @@
 import { createPool } from 'mariadb'
 import type { Pool, PoolConnection } from 'mariadb'
-import { type DatabasePerson } from './model/DatabasePerson'
 import { mariadbQueries } from './queries/mariadbQueries'
 import { type DatabaseType } from './type/DatabaseType'
 import { type TableType } from './type/TableType'
@@ -78,21 +77,21 @@ class MariadbDataSource implements IDataSource {
     return true
   }
 
-  async insertPersonRegistry (person: Person): Promise<DatabasePerson> {
+  async insertPersonRegistry (person: Person): Promise<Person> {
     const connection = await this.getConnectionFromPool()
     await connection.query(mariadbQueries.insertPersonRegistry, [person.id, person.name, person.email, person.age])
     await this.releaseConnection(connection)
     return person
   }
 
-  async fetchEveryPersonRegistry (): Promise<DatabasePerson[]> {
+  async fetchEveryPersonRegistry (): Promise<Person[]> {
     const connection = await this.getConnectionFromPool()
     const personList = await connection.query(mariadbQueries.fetchEveryPersonRegistry)
     await this.releaseConnection(connection)
     return personList
   }
 
-  async fetchPersonBy (parameter: string, parameterValue: string): Promise<DatabasePerson | null> {
+  async fetchPersonBy (parameter: string, parameterValue: string): Promise<Person | null> {
     const connection = await this.getConnectionFromPool()
     const personList = await connection.query(mariadbQueries.fetchPersonRegistryBy, [parameter, parameterValue])
     await this.releaseConnection(connection)
@@ -100,14 +99,14 @@ class MariadbDataSource implements IDataSource {
     else return personList[0]
   }
 
-  async updatePersonBy (parameter: string, parameterValue: string, personToUpdate: Person): Promise<DatabasePerson> {
+  async updatePersonBy (parameter: string, parameterValue: string, personToUpdate: Person): Promise<Person> {
     const connection = await this.getConnectionFromPool()
     await connection.query(mariadbQueries.updatePersonRegistryBy, [personToUpdate.id, personToUpdate.name, personToUpdate.email, personToUpdate.age, parameter, parameterValue])
     await this.releaseConnection(connection)
     return personToUpdate
   }
 
-  async deletePersonBy (parameter: string, parameterValue: string): Promise<DatabasePerson | null> {
+  async deletePersonBy (parameter: string, parameterValue: string): Promise<Person | null> {
     const connection = await this.getConnectionFromPool()
     const person = await this.fetchPersonBy(parameter, parameterValue)
     await this.releaseConnection(connection)
