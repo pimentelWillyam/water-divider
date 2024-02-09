@@ -14,6 +14,8 @@ class RouterFactory implements IRouterFactory {
     switch (routerType) {
       case 'person':
         return new PersonRouter(this.controllerFactory.fabricate('person'))
+      case 'auth':
+        return new PersonRouter(this.controllerFactory.fabricate('auth'))
 
       default:
         throw new Error('Error while creating a router')
