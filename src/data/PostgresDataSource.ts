@@ -1,4 +1,3 @@
-import { type DatabasePerson } from './model/DatabasePerson'
 // import { type DatabaseType } from './type/DatabaseType'
 import { type TableType } from './type/TableType'
 import { type IDataSource } from './interface/IDataSource'
@@ -96,21 +95,21 @@ class PostgresDataSource implements IDataSource {
     if (await this.tableExists('person')) await this.createTable('person')
   }
 
-  async insertPersonRegistry (person: Person): Promise<DatabasePerson> {
+  async insertPersonRegistry (person: Person): Promise<Person> {
     if (this.connectionPool === undefined) throw new Error('Pool de conexões indefinida')
     await this.connectionPool.query(postgresQueries.insertPersonRegistry, [person.id, person.name, person.email, person.age])
 
     return person
   }
 
-  async fetchEveryPersonRegistry (): Promise<DatabasePerson[]> {
+  async fetchEveryPersonRegistry (): Promise<Person[]> {
     if (this.connectionPool === undefined) throw new Error('Pool de conexões indefinida')
     const queryResult = await this.connectionPool.query(postgresQueries.fetchEveryPersonRegistry)
 
     return queryResult.rows[0]
   }
 
-  async fetchPersonBy (parameter: string, parameterValue: string): Promise<DatabasePerson | null> {
+  async fetchPersonBy (parameter: string, parameterValue: string): Promise<Person | null> {
     if (this.connectionPool === undefined) throw new Error('Pool de conexões indefinida')
     const queryResult = await this.connectionPool.query(postgresQueries.fetchPersonRegistryBy, [parameter, parameterValue])
 
@@ -118,14 +117,14 @@ class PostgresDataSource implements IDataSource {
     else return queryResult.rows[0]
   }
 
-  async updatePersonBy (parameter: string, parameterValue: string, personToUpdate: Person): Promise<DatabasePerson> {
+  async updatePersonBy (parameter: string, parameterValue: string, personToUpdate: Person): Promise<Person> {
     if (this.connectionPool === undefined) throw new Error('Pool de conexões indefinida')
     await this.connectionPool.query(postgresQueries.updatePersonRegistryBy, [personToUpdate.id, personToUpdate.name, personToUpdate.email, personToUpdate.age, parameter, parameterValue])
 
     return personToUpdate
   }
 
-  async deletePersonBy (parameter: string, parameterValue: string): Promise<DatabasePerson | null> {
+  async deletePersonBy (parameter: string, parameterValue: string): Promise<Person | null> {
     const person = await this.fetchPersonBy(parameter, parameterValue)
     if (this.connectionPool === undefined) throw new Error('Pool de conexões indefinida')
 
