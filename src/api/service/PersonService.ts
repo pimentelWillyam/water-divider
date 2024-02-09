@@ -19,6 +19,10 @@ class PersonService implements IPersonService {
     return await this.PersonRepository.get(id)
   }
 
+  async getByLogin (login: string): Promise<Person | null> {
+    return await this.PersonRepository.getByLogin(login)
+  }
+
   async update (id: string, personToBeUpdated: Person): Promise<Person | null> {
     return await this.PersonRepository.update(id, personToBeUpdated.login, personToBeUpdated.password, this.fullNameNormalizer.normalize(personToBeUpdated.name), personToBeUpdated.email, personToBeUpdated.age)
   }
