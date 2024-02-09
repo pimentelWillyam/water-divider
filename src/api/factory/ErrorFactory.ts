@@ -41,6 +41,12 @@ class NameLengthBelowFourLettersError extends KnownError {
   }
 }
 
+class InvalidLoginOrPassword extends KnownError {
+  constructor () {
+    super('Login ou senha inválido', 'Não existe um usuário com esse login ou a senha inserida é inválida', 401)
+  }
+}
+
 class ServerError extends KnownError {
   constructor () {
     super('Erro de servidor', 'Algo inesperado aconteceu no servidor', 500)
