@@ -5,9 +5,9 @@ import { type DataSource } from '../../data/type/Datasource'
 class PersonRepository implements IPersonRepository {
   constructor (readonly dataSource: DataSource) {}
 
-  async create (id: string, name: string, email: string, age: number): Promise<Person> {
-    await this.dataSource.insertPersonRegistry({ id, name, email, age })
-    return { id, name, email, age }
+  async create (id: string, login: string, password: string, name: string, email: string, age: number): Promise<Person> {
+    await this.dataSource.insertPersonRegistry({ id, login, password, name, email, age })
+    return { id, login, password, name, email, age }
   }
 
   async getAll (): Promise<Person[]> {
