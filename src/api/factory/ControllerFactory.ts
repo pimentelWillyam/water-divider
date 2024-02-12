@@ -5,6 +5,12 @@ import { type ControllerType } from '../type/ControllerType'
 import { type DataSource } from '../../data/type/Datasource'
 import { ServiceFactory } from './ServiceFactory'
 import { ValidatorFactory } from './ValidatorFactory'
+import { type Controller } from '../type/Controller'
+import { AuthController } from '../controller/AuthController'
+import type AuthService from '../service/AuthService'
+import type PersonService from '../service/PersonService'
+import type PersonValidator from '../validator/PersonValidator'
+import type AuthValidator from '../validator/AuthValidator'
 
 class ControllerFactory implements IControllerFactory {
   private readonly serviceFactory: IServiceFactory
