@@ -19,7 +19,7 @@ class ControllerFactory implements IControllerFactory {
     this.serviceFactory = new ServiceFactory(dataSource)
   }
 
-  fabricate (controllerType: ControllerType): PersonController {
+  fabricate (controllerType: ControllerType): Controller {
     switch (controllerType) {
       case 'person':
         return new PersonController(this.serviceFactory.fabricate('person'), this.validatorFactory.fabricate('person'))
