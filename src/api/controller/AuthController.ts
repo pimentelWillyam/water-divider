@@ -12,7 +12,7 @@ class AuthController implements IAuthController {
     try {
       const errorList = await this.authValidator.validateAuthentication(req.body.login, req.body.password)
       if (errorList.length !== 0) return res.status(400).json({ errorList })
-      const auth = await this.authService.authenticate(req.body.login)
+      const auth = await this.authService.authenticate(req.body.login, req.body.password)
       return res.status(200).json(auth)
     } catch (error) {
       console.error(error)
