@@ -24,7 +24,7 @@ class ControllerFactory implements IControllerFactory {
       case 'person':
         return new PersonController(this.serviceFactory.fabricate('person') as PersonService, this.validatorFactory.fabricate('person') as PersonValidator)
       case 'auth':
-        return new PersonController(this.serviceFactory.fabricate('auth'), this.validatorFactory.fabricate('auth'))
+        return new AuthController(this.serviceFactory.fabricate('auth') as AuthService, this.validatorFactory.fabricate('auth') as AuthValidator)
       default:
         throw new Error('Error when creating controller')
     }
