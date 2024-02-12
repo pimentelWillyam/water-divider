@@ -5,7 +5,7 @@ import { type RepositoryType } from '../type/RepositoryType'
 
 class RepositoryFactory implements IRepositoryFactory {
   constructor (private readonly dataSource: DataSource) {}
-  fabricate (repositoryType: 'person'): PersonRepository {
+  fabricate (repositoryType: RepositoryType): PersonRepository {
     switch (repositoryType) {
       case 'person':
         return new PersonRepository(this.dataSource)
