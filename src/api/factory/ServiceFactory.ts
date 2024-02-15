@@ -9,6 +9,7 @@ import { RepositoryFactory } from './RepositoyFactory'
 import { UUIDGeneratorFactory } from './UUIDGeneratorFactory'
 import AuthService from '../service/AuthService'
 import { JsonWebTokenGenerator } from '../helper/JsonWebTokenGenerator'
+import { ErrorFactory } from './ErrorFactory'
 
 class ServiceFactory implements IServiceFactory {
   private readonly uuidGeneratorFactory = new UUIDGeneratorFactory()
