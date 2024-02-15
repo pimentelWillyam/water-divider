@@ -14,7 +14,7 @@ class RouterFactory implements IRouterFactory {
     this.controllerFactory = new ControllerFactory(dataSource)
   }
 
-  fabricate (routerType: RouterType): PersonRouter {
+  fabricate (routerType: RouterType): Router {
     switch (routerType) {
       case 'person':
         return new PersonRouter(this.controllerFactory.fabricate('person'))
