@@ -15,6 +15,7 @@ class ServiceFactory implements IServiceFactory {
   private readonly uuidGeneratorFactory = new UUIDGeneratorFactory()
   private readonly nameNormalizerFactory = new NameNormalizerFactory()
   private readonly repositoryFactory: IRepositoryFactory
+  private readonly errorFactory = new ErrorFactory()
   constructor (dataSource: DataSource) {
     this.repositoryFactory = new RepositoryFactory(dataSource)
   }
@@ -24,7 +25,7 @@ class ServiceFactory implements IServiceFactory {
       case 'person':
         return new PersonService(this.repositoryFactory.fabricate('person'), this.uuidGeneratorFactory.fabricate(), this.nameNormalizerFactory.fabricate())
       case 'auth':
-        return new AuthService(this.repositoryFactory.fabricate('auth'), new JsonWebTokenGenerator())
+        return new AuthService(this.errorFactory, this.repositoryFactory.fabricate('person'), new JsonWebTokenGenerator())
 
       default:
         throw new Error('Error at validator fabrication')
