@@ -3,6 +3,10 @@ import PersonRouter from '../router/PersonRouter'
 import { type DataSource } from '../../data/type/Datasource'
 import { type RouterType } from '../type/RouterType'
 import { ControllerFactory } from './ControllerFactory'
+import AuthRouter from '../router/AuthRouter'
+import { type Router } from '../type/Router'
+import type PersonController from '../controller/PersonController'
+import { type AuthController } from '../controller/AuthController'
 
 class RouterFactory implements IRouterFactory {
   private readonly controllerFactory
