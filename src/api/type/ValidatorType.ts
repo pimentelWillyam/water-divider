@@ -1,3 +1,3 @@
-type ValidatorType = 'person'
+type ValidatorType = 'person' | 'auth'
 
 export type { ValidatorType }

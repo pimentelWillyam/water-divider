@@ -1,16 +1,13 @@
 import { type IErrorFactory } from '../interface/IErrorFactory'
 import type IAuthValidator from '../interface/IAuthValidator'
 import type KnownError from './errors/KnownError'
-import type IPersonService from '../interface/IPersonService'
 
 class AuthValidator implements IAuthValidator {
-  constructor (readonly errorFactory: IErrorFactory, readonly personService: IPersonService) {}
+  constructor (readonly errorFactory: IErrorFactory) {}
   async validateAuthentication (login: string, password: string): Promise<KnownError[]> {
     const errorList: KnownError[] = []
     if (this.valueIsNullOrUndefinedOrEmpty(login)) errorList.push(this.errorFactory.create('invalid data type', 'login'))
     if (this.valueIsNullOrUndefinedOrEmpty(password)) errorList.push(this.errorFactory.create('invalid data type', 'senha'))
-    const person = await this.personService.getByLogin(login)
-    if (person === null || person.login !== login || person.password !== password) errorList.push(this.errorFactory.create('invalid login or password'))
     return errorList
   }
 
