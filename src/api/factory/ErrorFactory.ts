@@ -47,6 +47,18 @@ class InvalidLoginOrPassword extends KnownError {
   }
 }
 
+class LoginAlreadyExists extends KnownError {
+  constructor () {
+    super('Login existente', 'Já existe um usuário com esse login, tente se cadastrar com outro ', 400)
+  }
+}
+
+class EmailAlreadyExists extends KnownError {
+  constructor () {
+    super('Email existente', 'Já existe um usuário com esse email, tente se cadastrar com outro ', 400)
+  }
+}
+
 class ServerError extends KnownError {
   constructor () {
     super('Erro de servidor', 'Algo inesperado aconteceu no servidor', 500)
@@ -61,7 +73,8 @@ class ErrorFactory implements IErrorFactory {
     if (errorType === 'name has any number') return new NameHasAnyNumberError()
     if (errorType === 'name length below four letters') return new NameLengthBelowFourLettersError()
     if (errorType === 'invalid login or password') return new InvalidLoginOrPassword()
-
+    if (errorType === 'login already exists') return new LoginAlreadyExists()
+    if (errorType === 'email already exists') return new EmailAlreadyExists()
     else return new ServerError()
   }
 }

@@ -22,6 +22,10 @@ class PersonRepository implements IPersonRepository {
     return await this.dataSource.fetchPersonBy('login', login)
   }
 
+  async getByEmail (email: string): Promise<Person | null> {
+    return await this.dataSource.fetchPersonBy('email', email)
+  }
+
   async update (id: string, login: string, password: string, name: string, email: string, age: number): Promise<Person | null> {
     return await this.dataSource.updatePersonBy('id', id, { id, login, password, name, email, age })
   }

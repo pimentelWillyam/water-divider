@@ -33,12 +33,13 @@ class MemoryDataSource implements IDataSource {
     for (const person of this.personList) {
       if (parameter === 'id' && person.id === parameterValue) return person
       else if (parameter === 'login' && person.login === parameterValue) return person
+      else if (parameter === 'email' && person.email === parameterValue) return person
     }
     return null
   }
 
   updatePersonBy = async (parameter: string, parameterValue: string, personToBeUpdated: Person): Promise<Person | null> => {
-    const person = await this.fetchPersonBy('id', parameterValue)
+    const person = await this.fetchPersonBy(parameter, parameterValue)
     if (person === null) return null
     if (personToBeUpdated.name !== undefined) person.name = personToBeUpdated.name
     if (personToBeUpdated.email !== undefined) person.email = personToBeUpdated.email

@@ -1,10 +1,11 @@
 import { type IErrorFactory } from '../interface/IErrorFactory'
+import type IPersonService from '../interface/IPersonService'
 import type IPersonValidator from '../interface/IPersonValidator'
 import type KnownError from './errors/KnownError'
 
 class PersonValidator implements IPersonValidator {
-  constructor (readonly errorFactory: IErrorFactory) {}
-  validateCreation (login: string, password: string, name: string, email: string, age: number): KnownError[] {
+  constructor (readonly errorFactory: IErrorFactory, readonly personService: IPersonService) {}
+  readonly validateCreation = async (login: string, password: string, name: string, email: string, age: number): Promise<KnownError[]> => {
     const errorList: KnownError[] = []
     if (this.valueIsNullOrUndefinedOrEmpty(login)) errorList.push(this.errorFactory.create('invalid data type', 'login'))
     if (this.valueIsNullOrUndefinedOrEmpty(password)) errorList.push(this.errorFactory.create('invalid data type', 'senha'))
@@ -15,11 +16,12 @@ class PersonValidator implements IPersonValidator {
     if (!this.nameHasNoNumbers(name)) errorList.push(this.errorFactory.create('name has any number'))
     if (!this.isEmailValid(email)) errorList.push(this.errorFactory.create('invalid email'))
     if (!this.isAgeValid(age)) errorList.push(this.errorFactory.create('invalid age'))
-    console.log(errorList)
+    if (await this.loginAlreadyExists(login)) errorList.push(this.errorFactory.create('login already exists'))
+    if (await this.emailAlreadyExists(email)) errorList.push(this.errorFactory.create('email already exists'))
     return errorList
   }
 
-  validateUpdate (login: string, password: string, name: string, email: string, age: number): KnownError[] {
+  readonly validateUpdate = async (login: string, password: string, name: string, email: string, age: number): Promise<KnownError[]> => {
     const errorList: KnownError[] = []
     if (login !== undefined && this.valueIsNullOrUndefinedOrEmpty(login)) errorList.push(this.errorFactory.create('invalid data type', 'login'))
     if (password !== undefined && this.valueIsNullOrUndefinedOrEmpty(password)) errorList.push(this.errorFactory.create('invalid data type', 'senha'))
@@ -30,6 +32,8 @@ class PersonValidator implements IPersonValidator {
     if (name !== undefined && !this.nameHasNoNumbers(name)) errorList.push(this.errorFactory.create('name has any number'))
     if (email !== undefined && !this.isEmailValid(email)) errorList.push(this.errorFactory.create('invalid email'))
     if (age !== undefined && !this.isAgeValid(age)) errorList.push(this.errorFactory.create('invalid age'))
+    if (await this.loginAlreadyExists(login)) errorList.push(this.errorFactory.create('login already exists'))
+    if (await this.emailAlreadyExists(email)) errorList.push(this.errorFactory.create('email already exists'))
     return errorList
   }
 
@@ -62,6 +66,16 @@ class PersonValidator implements IPersonValidator {
 
   private readonly valueIsNullOrEmpty = (value: unknown): boolean => {
     if (value === null || value === '') return true
+    return false
+  }
+
+  private readonly loginAlreadyExists = async (login: string): Promise<boolean> => {
+    if (await this.personService.getByLogin(login) !== null) return true
+    return false
+  }
+
+  private readonly emailAlreadyExists = async (email: string): Promise<boolean> => {
+    if (await this.personService.getByEmail(email) !== null) return true
     return false
   }
 }

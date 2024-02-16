@@ -22,7 +22,7 @@ class ControllerFactory implements IControllerFactory {
   fabricate (controllerType: ControllerType): Controller {
     switch (controllerType) {
       case 'person':
-        return new PersonController(this.serviceFactory.fabricate('person') as PersonService, this.validatorFactory.fabricate('person') as PersonValidator)
+        return new PersonController(this.serviceFactory.fabricate('person') as PersonService, this.validatorFactory.fabricate('person', this.serviceFactory.fabricate('person')) as PersonValidator)
       case 'auth':
         return new AuthController(this.serviceFactory.fabricate('auth') as AuthService, this.validatorFactory.fabricate('auth') as AuthValidator)
       default:
