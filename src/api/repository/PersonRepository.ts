@@ -5,9 +5,9 @@ import { type DataSource } from '../../data/type/Datasource'
 class PersonRepository implements IPersonRepository {
   constructor (readonly dataSource: DataSource) {}
 
-  async create (id: string, login: string, password: string, name: string, email: string, age: number): Promise<Person> {
-    await this.dataSource.insertPersonRegistry({ id, login, password, name, email, age })
-    return { id, login, password, name, email, age }
+  async create (id: string, password: string, name: string, email: string, age: number): Promise<Person> {
+    await this.dataSource.insertPersonRegistry({ id, password, name, email, age })
+    return { id, password, name, email, age }
   }
 
   async getAll (): Promise<Person[]> {
@@ -18,16 +18,12 @@ class PersonRepository implements IPersonRepository {
     return await this.dataSource.fetchPersonBy('id', id)
   }
 
-  async getByLogin (login: string): Promise<Person | null> {
-    return await this.dataSource.fetchPersonBy('login', login)
-  }
-
   async getByEmail (email: string): Promise<Person | null> {
     return await this.dataSource.fetchPersonBy('email', email)
   }
 
-  async update (id: string, login: string, password: string, name: string, email: string, age: number): Promise<Person | null> {
-    return await this.dataSource.updatePersonBy('id', id, { id, login, password, name, email, age })
+  async update (id: string, password: string, name: string, email: string, age: number): Promise<Person | null> {
+    return await this.dataSource.updatePersonBy('id', id, { id, password, name, email, age })
   }
 
   async delete (id: string): Promise<Person | null> {

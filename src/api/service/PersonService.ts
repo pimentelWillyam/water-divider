@@ -8,7 +8,7 @@ class PersonService implements IPersonService {
   constructor (readonly personRepository: IPersonRepository, readonly idGenerator: UUIDGenerator, readonly fullNameNormalizer: NameNormalizer) {}
 
   async create (login: string, password: string, name: string, email: string, age: number): Promise<Person> {
-    return await this.personRepository.create(this.idGenerator.generate(), login, password, this.fullNameNormalizer.normalize(name), email, age)
+    return await this.personRepository.create(this.idGenerator.generate(), password, this.fullNameNormalizer.normalize(name), email, age)
   }
 
   async getAll (): Promise<Person[]> {
@@ -19,16 +19,12 @@ class PersonService implements IPersonService {
     return await this.personRepository.get(id)
   }
 
-  async getByLogin (login: string): Promise<Person | null> {
-    return await this.personRepository.getByLogin(login)
-  }
-
   async getByEmail (email: string): Promise<Person | null> {
     return await this.personRepository.getByEmail(email)
   }
 
   async update (id: string, personToBeUpdated: Person): Promise<Person | null> {
-    return await this.personRepository.update(id, personToBeUpdated.login, personToBeUpdated.password, this.fullNameNormalizer.normalize(personToBeUpdated.name), personToBeUpdated.email, personToBeUpdated.age)
+    return await this.personRepository.update(id, personToBeUpdated.password, this.fullNameNormalizer.normalize(personToBeUpdated.name), personToBeUpdated.email, personToBeUpdated.age)
   }
 
   async delete (id: string): Promise<Person | null> {

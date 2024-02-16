@@ -8,14 +8,12 @@ class AuthService implements IAuthService {
   constructor (readonly errorFactory: IErrorFactory, readonly personRepository: IPersonRepository, readonly jsonWebTokenGenerator: IJsonWebTokenGenerator) {}
 
   async authenticate (login: string, password: string): Promise<AuthResponse> {
-    const person = await this.personRepository.getByLogin(login)
-    console.log(person)
-    if (person === null || person.login !== login || person.password !== password) throw this.errorFactory.create('invalid login or password')
+    const person = await this.personRepository.getByEmail(login)
     return {
-      id: person.id,
-      name: person.name,
-      email: person.email,
-      token: this.jsonWebTokenGenerator.generate(person.id, person.name, person.email)
+      id: person?.id as string,
+      name: person?.name as string,
+      email: person?.email as string,
+      token: this.jsonWebTokenGenerator.generate(person?.id as string, person?.name as string, person?.email as string)
     }
   }
 }

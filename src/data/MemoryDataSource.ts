@@ -32,7 +32,6 @@ class MemoryDataSource implements IDataSource {
   fetchPersonBy = async (parameter: string, parameterValue: string): Promise<Person | null> => {
     for (const person of this.personList) {
       if (parameter === 'id' && person.id === parameterValue) return person
-      else if (parameter === 'login' && person.login === parameterValue) return person
       else if (parameter === 'email' && person.email === parameterValue) return person
     }
     return null

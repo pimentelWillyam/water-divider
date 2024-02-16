@@ -14,7 +14,7 @@ class ValidatorFactory implements IValidatorFactory {
         return new PersonValidator(new ErrorFactory(), necessaryService as PersonService)
 
       case 'auth':
-        return new AuthValidator(new ErrorFactory())
+        return new AuthValidator(new ErrorFactory(), necessaryService as PersonService)
       default:
         throw new Error('Error at validator fabrication')
     }

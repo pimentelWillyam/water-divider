@@ -75,7 +75,8 @@ class ErrorFactory implements IErrorFactory {
     if (errorType === 'invalid login or password') return new InvalidLoginOrPassword()
     if (errorType === 'login already exists') return new LoginAlreadyExists()
     if (errorType === 'email already exists') return new EmailAlreadyExists()
-    else return new ServerError()
+
+    return new ServerError()
   }
 }
 
