@@ -20,7 +20,7 @@ class AuthController implements IAuthController {
         return res.status(error.status).send({ name: error.name, message: error.message })
       }
 
-      return res.status(500).send({ name: 'Erro desconhecido', message: error })
+      return res.status(500).send({ name: 'Erro desconhecido', error })
     }
   }
 }
