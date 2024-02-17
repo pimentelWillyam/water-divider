@@ -91,7 +91,19 @@ class MariadbDataSource implements IDataSource {
     return personList
   }
 
-  async fetchPersonBy (parameter: string, parameterValue: string): Promise<Person | null> {
+  async fetchPersonRegistryBy (parameter: string, parameterValue: string): Promise<Person | null> {
+    switch (parameter) {
+      case 'id':
+        return await this.fetchPersonRegistryById(parameterValue)
+      case 'email':
+        return await this.fetchPersonRegistryByEmail(parameterValue)
+
+      default:
+        return null
+    }
+  }
+
+  private async fetchPersonRegistryById (id: string): Promise<Person | null> {
     const connection = await this.getConnectionFromPool()
     const personList = await connection.query(mariadbQueries.fetchPersonRegistryBy, [parameter, parameterValue])
     await this.releaseConnection(connection)
