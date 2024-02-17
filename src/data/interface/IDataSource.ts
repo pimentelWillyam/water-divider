@@ -6,9 +6,6 @@ interface IDataSource {
   stop: () => Promise<void>
   insertPersonRegistry: (person: Person) => Promise<DatabasePerson>
   fetchEveryPersonRegistry: () => Promise<DatabasePerson[]>
-  fetchPersonBy: (parameter: string, parameterValue: string) => Promise<Person | null>
-  updatePersonBy: (parameter: string, parameterValue: string, personToBeUpdated: Person) => Promise<DatabasePerson | null>
-  deletePersonBy: (parameter: string, parameterValue: string) => Promise<DatabasePerson | null>
   fetchPersonRegistryBy: (parameter: string, parameterValue: string) => Promise<Person | null>
   updatePersonRegistryBy: (parameter: string, parameterValue: string, personToBeUpdated: Person) => Promise<DatabasePerson | null>
   deletePersonRegistryBy: (parameter: string, parameterValue: string) => Promise<DatabasePerson | null>
