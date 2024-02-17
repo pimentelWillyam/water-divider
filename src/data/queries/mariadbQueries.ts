@@ -9,7 +9,7 @@ const mariadbQueries = {
     age INT NOT NULL,
     PRIMARY KEY (id)
   );`,
-  insertPersonRegistry: 'INSERT INTO boilerplate.person (id, name, email, age) VALUES (?,?,?,?);',
+  insertPersonRegistry: 'INSERT INTO boilerplate.person (id, name, password, email, age) VALUES (?,?,?,?,?);',
 
   fetchEveryPersonRegistry: 'SELECT * FROM boilerplate.person;',
 
