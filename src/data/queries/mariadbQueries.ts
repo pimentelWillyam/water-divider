@@ -16,6 +16,9 @@ const mariadbQueries = {
   fetchPersonRegistryBy: 'SELECT * FROM boilerplate.person WHERE "?" = "?";',
 
   fetchPersonRegistryById: 'SELECT * FROM boilerplate.person WHERE id = ? ;',
+
+  fetchPersonRegistryByEmail: 'SELECT * FROM boilerplate.person WHERE email = ? ;',
+
   id = ?,
   name = ?,
   email = ?,
