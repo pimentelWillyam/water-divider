@@ -79,7 +79,6 @@ class MariadbDataSource implements IDataSource {
 
   async insertPersonRegistry (person: Person): Promise<Person> {
     const connection = await this.getConnectionFromPool()
-    await connection.query(mariadbQueries.insertPersonRegistry, [person.id, person.name, person.email, person.age])
     await connection.query(mariadbQueries.insertPersonRegistry, [person.id, person.name, person.password, person.email, person.age])
     await this.releaseConnection(connection)
     return person
