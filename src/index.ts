@@ -1,7 +1,6 @@
 import { APIFactory } from './api/factory/APIFactory'
 import { DataSourceFactory } from './api/factory/DataSourceFactory'
 import * as dotenv from 'dotenv-safe'
-import { config } from './config'
 import { options } from './options'
 
 dotenv.config()
