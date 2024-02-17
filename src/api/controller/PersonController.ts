@@ -63,7 +63,7 @@ class PersonController implements IPersonController {
       if (error instanceof KnownError) {
         return res.status(error.status).send({ name: error.name, message: error.message })
       }
-      return res.status(500).send({ name: 'Erro desconhecido', message: 'Um erro inesperado aconteceu durante a requisição' })
+      return res.status(500).send({ name: 'Erro desconhecido', error })
     }
   }
 
