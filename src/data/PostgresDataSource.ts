@@ -109,7 +109,7 @@ class PostgresDataSource implements IDataSource {
     return queryResult.rows[0]
   }
 
-  async fetchPersonBy (parameter: string, parameterValue: string): Promise<Person | null> {
+  async fetchPersonRegistryBy (parameter: string, parameterValue: string): Promise<Person | null> {
     if (this.connectionPool === undefined) throw new Error('Pool de conexões indefinida')
     const queryResult = await this.connectionPool.query(postgresQueries.fetchPersonRegistryBy, [parameter, parameterValue])
 
@@ -117,15 +117,15 @@ class PostgresDataSource implements IDataSource {
     else return queryResult.rows[0]
   }
 
-  async updatePersonBy (parameter: string, parameterValue: string, personToUpdate: Person): Promise<Person> {
+  async updatePersonRegistryBy (parameter: string, parameterValue: string, personToUpdate: Person): Promise<Person> {
     if (this.connectionPool === undefined) throw new Error('Pool de conexões indefinida')
     await this.connectionPool.query(postgresQueries.updatePersonRegistryBy, [personToUpdate.id, personToUpdate.name, personToUpdate.email, personToUpdate.age, parameter, parameterValue])
 
     return personToUpdate
   }
 
-  async deletePersonBy (parameter: string, parameterValue: string): Promise<Person | null> {
-    const person = await this.fetchPersonBy(parameter, parameterValue)
+  async deletePersonRegistryBy (parameter: string, parameterValue: string): Promise<Person | null> {
+    const person = await this.fetchPersonRegistryBy(parameter, parameterValue)
     if (this.connectionPool === undefined) throw new Error('Pool de conexões indefinida')
 
     if (person === null) return null
