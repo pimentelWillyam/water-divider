@@ -12,7 +12,7 @@ class PersonController implements IPersonController {
     const errorList = await this.personValidator.validateCreation(req.body.password, req.body.name, req.body.email, req.body.age)
     if (errorList.length !== 0) return res.status(400).json({ errorList })
     try {
-      const person = await this.personService.create(req.body.login, req.body.password, req.body.name, req.body.email, req.body.age)
+      const person = await this.personService.create(req.body.password, req.body.name, req.body.email, req.body.age)
       return res.status(201).json(person)
     } catch (error) {
       console.error(error)
