@@ -15,19 +15,19 @@ class PersonRepository implements IPersonRepository {
   }
 
   async get (id: string): Promise<Person | null> {
-    return await this.dataSource.fetchPersonBy('id', id)
+    return await this.dataSource.fetchPersonRegistryBy('id', id)
   }
 
   async getByEmail (email: string): Promise<Person | null> {
-    return await this.dataSource.fetchPersonBy('email', email)
+    return await this.dataSource.fetchPersonRegistryBy('email', email)
   }
 
   async update (id: string, password: string, name: string, email: string, age: number): Promise<Person | null> {
-    return await this.dataSource.updatePersonBy('id', id, { id, password, name, email, age })
+    return await this.dataSource.updatePersonRegistryBy('id', id, { id, password, name, email, age })
   }
 
   async delete (id: string): Promise<Person | null> {
-    return await this.dataSource.deletePersonBy('id', id)
+    return await this.dataSource.deletePersonRegistryBy('id', id)
   }
 }
 
