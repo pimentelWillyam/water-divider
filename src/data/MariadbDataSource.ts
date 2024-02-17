@@ -111,11 +111,14 @@ class MariadbDataSource implements IDataSource {
     return person[0]
   }
 
-  async updatePersonBy (parameter: string, parameterValue: string, personToUpdate: Person): Promise<Person> {
+  private async fetchPersonRegistryByEmail (email: string): Promise<Person | null> {
     const connection = await this.getConnectionFromPool()
-    await connection.query(mariadbQueries.updatePersonRegistryBy, [personToUpdate.id, personToUpdate.name, personToUpdate.email, personToUpdate.age, parameter, parameterValue])
+    const person = await connection.query(mariadbQueries.fetchPersonRegistryByEmail, [email])
     await this.releaseConnection(connection)
-    return personToUpdate
+    if (person[0] === undefined) return null
+    return person[0]
+  }
+
   }
 
   async deletePersonBy (parameter: string, parameterValue: string): Promise<Person | null> {
