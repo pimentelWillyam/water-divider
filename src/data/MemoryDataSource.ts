@@ -29,7 +29,7 @@ class MemoryDataSource implements IDataSource {
     return this.personList
   }
 
-  fetchPersonBy = async (parameter: string, parameterValue: string): Promise<Person | null> => {
+  fetchPersonRegistryBy = async (parameter: string, parameterValue: string): Promise<Person | null> => {
     for (const person of this.personList) {
       if (parameter === 'id' && person.id === parameterValue) return person
       else if (parameter === 'email' && person.email === parameterValue) return person
@@ -37,8 +37,8 @@ class MemoryDataSource implements IDataSource {
     return null
   }
 
-  updatePersonBy = async (parameter: string, parameterValue: string, personToBeUpdated: Person): Promise<Person | null> => {
-    const person = await this.fetchPersonBy(parameter, parameterValue)
+  updatePersonRegistryBy = async (parameter: string, parameterValue: string, personToBeUpdated: Person): Promise<Person | null> => {
+    const person = await this.fetchPersonRegistryBy(parameter, parameterValue)
     if (person === null) return null
     if (personToBeUpdated.name !== undefined) person.name = personToBeUpdated.name
     if (personToBeUpdated.email !== undefined) person.email = personToBeUpdated.email
@@ -46,7 +46,7 @@ class MemoryDataSource implements IDataSource {
     return person
   }
 
-  deletePersonBy = async (parameter: string, parameterValue: string): Promise<Person | null> => {
+  deletePersonRegistryBy = async (parameter: string, parameterValue: string): Promise<Person | null> => {
     for (let i = 0; i < this.personList.length; i++) {
       if (this.personList[i].id === parameterValue) {
         const person = this.personList[i]
