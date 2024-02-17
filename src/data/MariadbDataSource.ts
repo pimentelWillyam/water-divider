@@ -136,9 +136,9 @@ class MariadbDataSource implements IDataSource {
     return null
   }
 
-  async deletePersonBy (parameter: string, parameterValue: string): Promise<Person | null> {
+  async deletePersonRegistryBy (parameter: string, parameterValue: string): Promise<Person | null> {
     const connection = await this.getConnectionFromPool()
-    const person = await this.fetchPersonBy(parameter, parameterValue)
+    const person = await this.fetchPersonRegistryBy(parameter, parameterValue)
     await this.releaseConnection(connection)
     if (person === null) return null
     await connection.query(mariadbQueries.deletePersonRegistryBy, [parameter, parameterValue])
