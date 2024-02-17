@@ -105,10 +105,10 @@ class MariadbDataSource implements IDataSource {
 
   private async fetchPersonRegistryById (id: string): Promise<Person | null> {
     const connection = await this.getConnectionFromPool()
-    const personList = await connection.query(mariadbQueries.fetchPersonRegistryBy, [parameter, parameterValue])
+    const person = await connection.query(mariadbQueries.fetchPersonRegistryById, [id])
     await this.releaseConnection(connection)
-    if (personList[0] === undefined) return null
-    else return personList[0]
+    if (person[0] === undefined) return null
+    return person[0]
   }
 
   async updatePersonBy (parameter: string, parameterValue: string, personToUpdate: Person): Promise<Person> {
