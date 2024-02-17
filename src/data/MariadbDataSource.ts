@@ -119,6 +119,21 @@ class MariadbDataSource implements IDataSource {
     return person[0]
   }
 
+  async updatePersonRegistryBy (parameter: string, parameterValue: string, personToUpdate: Person): Promise<Person | null> {
+    switch (parameter) {
+      case 'id':
+        return await this.updatePersonRegistryById(parameterValue, personToUpdate)
+      default:
+        return null
+    }
+  }
+
+  async updatePersonRegistryById (id: string, personToUpdate: Person): Promise<Person | null> {
+    const connection = await this.getConnectionFromPool()
+    const queryResult = await connection.query(mariadbQueries.updatePersonRegistryById, [personToUpdate.id, personToUpdate.name, personToUpdate.email, personToUpdate.age, id])
+    await this.releaseConnection(connection)
+    if (queryResult.affectedRows > 0) return personToUpdate
+    return null
   }
 
   async deletePersonBy (parameter: string, parameterValue: string): Promise<Person | null> {
