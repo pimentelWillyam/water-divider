@@ -15,7 +15,7 @@ const mariadbQueries = {
 
   fetchPersonRegistryBy: 'SELECT * FROM boilerplate.person WHERE "?" = "?";',
 
-  updatePersonRegistryBy: `UPDATE boilerplate.person SET
+  fetchPersonRegistryById: 'SELECT * FROM boilerplate.person WHERE id = ? ;',
   id = ?,
   name = ?,
   email = ?,
