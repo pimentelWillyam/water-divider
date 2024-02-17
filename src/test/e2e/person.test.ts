@@ -70,7 +70,6 @@ describe('User integration tests', () => {
     })
     const response = await request(api.server).get('/api/person')
     expect(response.status).toEqual(200)
-    console.log(response.body)
     expect(response.body.length).toEqual(1)
     expect(response.body[0].name).toEqual('Wesley')
     expect(response.body[0].email).toEqual('wesley@gmail.com')
