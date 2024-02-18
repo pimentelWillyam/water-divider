@@ -13,7 +13,7 @@ const config = {
     },
     postgres: {
       host: process.env.POSTGRES_HOST as string,
-      port: parseInt(process.env.MARIADB_PORT as string),
+      port: parseInt(process.env.POSTGRES_PORT as string),
       user: process.env.POSTGRES_USER as string,
       password: process.env.POSTGRES_PASSWORD as string,
       connectionLimit: parseInt(process.env.POSTGRES_CONNECTION_LIMIT as string)
