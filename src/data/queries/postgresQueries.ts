@@ -12,9 +12,9 @@ const postgresQueries = {
       PRIMARY KEY (id)
     );`,
   insertPersonRegistry: 'INSERT INTO person (id, name, email, age) VALUES ($1,$2,$3,$4) ;',
-  fetchEveryPersonRegistry: 'SELECT * FROM boilerplate.person ;',
-  fetchPersonRegistryBy: 'SELECT * FROM boilerplate.person WHERE $1 = $2 ;',
-  updatePersonRegistryBy: ` UPDATE boilerplate.person SET
+  fetchEveryPersonRegistry: 'SELECT * FROM person ;',
+  fetchPersonRegistryBy: 'SELECT * FROM person WHERE $1 = $2 ;',
+  updatePersonRegistryBy: ` UPDATE person SET
     id = ?,
     name = ?,
     email = ?,
