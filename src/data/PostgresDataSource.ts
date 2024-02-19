@@ -92,7 +92,7 @@ class PostgresDataSource implements IDataSource {
   }
 
   private async createTables (): Promise<void> {
-    if (await this.tableExists('person')) await this.createTable('person')
+    if (!await this.tableExists('person')) await this.createTable('person')
   }
 
   async insertPersonRegistry (person: Person): Promise<Person> {
