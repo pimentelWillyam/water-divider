@@ -4,7 +4,7 @@ import { type IDataSource } from './interface/IDataSource'
 import type Person from '../api/entity/Person'
 
 import { postgresQueries } from './queries/postgresQueries'
-import { Pool } from 'pg'
+import { Pool, type QueryResult } from 'pg'
 import { type DataSourceConnectionConfig } from './type/DataSourceConnectionConfig'
 
 class PostgresDataSource implements IDataSource {
@@ -111,10 +111,20 @@ class PostgresDataSource implements IDataSource {
 
   async fetchPersonRegistryBy (parameter: string, parameterValue: string): Promise<Person | null> {
     if (this.connectionPool === undefined) throw new Error('Pool de conexões indefinida')
-    const queryResult = await this.connectionPool.query(postgresQueries.fetchPersonRegistryBy, [parameter, parameterValue])
-
-    if (queryResult.rows[0] === undefined) return null
-    else return queryResult.rows[0]
+    let queryResult: QueryResult<any>
+    switch (parameter) {
+      case 'id':
+        queryResult = await this.connectionPool.query(postgresQueries.fetchPersonRegistryById, [parameterValue])
+        if (queryResult.rows[0] === undefined) return null
+        return queryResult.rows[0]
+      case 'email':
+        queryResult = await this.connectionPool.query(postgresQueries.fetchPersonRegistryByEmail, [parameterValue])
+        console.log(queryResult.rows[0])
+        if (queryResult.rows[0] === undefined) return null
+        return queryResult.rows[0]
+      default:
+        throw new Error('Parâmetro de obtenção inválido')
+    }
   }
 
   async updatePersonRegistryBy (parameter: string, parameterValue: string, personToUpdate: Person): Promise<Person> {
