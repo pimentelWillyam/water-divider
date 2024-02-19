@@ -106,7 +106,7 @@ class PostgresDataSource implements IDataSource {
     if (this.connectionPool === undefined) throw new Error('Pool de conexões indefinida')
     const queryResult = await this.connectionPool.query(postgresQueries.fetchEveryPersonRegistry)
 
-    return queryResult.rows[0]
+    return queryResult.rows
   }
 
   async fetchPersonRegistryBy (parameter: string, parameterValue: string): Promise<Person | null> {
