@@ -2,8 +2,7 @@
 const postgresQueries = {
   createBoilerplateDatabase: 'CREATE DATABASE boilerplate ;',
   verifyIfBoilerplateDatabaseExists: "SELECT EXISTS (SELECT 1 FROM pg_database WHERE datname = 'boilerplate') AS exists ;",
-  // verifyIfPersonTableExists: "SELECT EXISTS (SELECT 1 FROM pg_class WHERE relname  = 'person' );",
-  verifyIfPersonTableExists: "SELECT EXISTS (SELECT * FROM information_schema.tables WHERE table_schema = 'company3' AND table_name = 'person' );",
+  verifyIfPersonTableExists: "SELECT EXISTS (SELECT 1 FROM pg_class WHERE relname  = 'person' );",
   useBoilerplateDatabase: 'USE boilerplate ;',
   createPersonTable: `CREATE TABLE person (
       id VARCHAR(255) NOT NULL,
@@ -13,9 +12,9 @@ const postgresQueries = {
       PRIMARY KEY (id)
     );`,
   insertPersonRegistry: 'INSERT INTO person (id, name, email, age) VALUES ($1,$2,$3,$4) ;',
-  fetchEveryPersonRegistry: 'SELECT * FROM boilerplate.person ;',
-  fetchPersonRegistryBy: 'SELECT * FROM boilerplate.person WHERE $1 = $2 ;',
-  updatePersonRegistryBy: ` UPDATE boilerplate.person SET
+  fetchEveryPersonRegistry: 'SELECT * FROM person ;',
+  fetchPersonRegistryBy: 'SELECT * FROM person WHERE $1 = $2 ;',
+  updatePersonRegistryBy: ` UPDATE person SET
     id = ?,
     name = ?,
     email = ?,

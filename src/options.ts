@@ -1,7 +1,7 @@
 import type { Options } from './api/type/Options'
 
 const options: Options = {
-  dataSourceToBeUsed: 'memory'
+  dataSourceToBeUsed: 'postgres'
 }
 
 export { options }

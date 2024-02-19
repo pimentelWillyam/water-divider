@@ -21,7 +21,6 @@ class PostgresDataSource implements IDataSource {
   async start (): Promise<void> {
     this.connectionPool = new Pool({ host: this.connectionConfig.host, port: this.connectionConfig.port, user: this.connectionConfig.user, password: this.connectionConfig.password, max: this.connectionConfig.connectionLimit })
     await this.bootstrap()
-    this.connectionPool = new Pool({ host: this.connectionConfig.host, port: this.connectionConfig.port, user: this.connectionConfig.user, password: this.connectionConfig.password, max: this.connectionConfig.connectionLimit, database: 'boilerplate' })
     console.log('Database started')
   }
 
@@ -32,6 +31,7 @@ class PostgresDataSource implements IDataSource {
 
   private async bootstrap (): Promise<void> {
     if (!await this.databaseExists()) await this.createNecessaryDatabases()
+    this.connectionPool = new Pool({ host: this.connectionConfig.host, port: this.connectionConfig.port, user: this.connectionConfig.user, password: this.connectionConfig.password, max: this.connectionConfig.connectionLimit, database: 'boilerplate' })
     await this.createTables()
   }
 
@@ -92,7 +92,7 @@ class PostgresDataSource implements IDataSource {
   }
 
   private async createTables (): Promise<void> {
-    if (await this.tableExists('person')) await this.createTable('person')
+    if (!await this.tableExists('person')) await this.createTable('person')
   }
 
   async insertPersonRegistry (person: Person): Promise<Person> {
