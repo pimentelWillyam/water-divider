@@ -97,7 +97,7 @@ class PostgresDataSource implements IDataSource {
 
   async insertPersonRegistry (person: Person): Promise<Person> {
     if (this.connectionPool === undefined) throw new Error('Pool de conexões indefinida')
-    await this.connectionPool.query(postgresQueries.insertPersonRegistry, [person.id, person.name, person.email, person.age])
+    await this.connectionPool.query(postgresQueries.insertPersonRegistry, [person.id, person.name, person.password, person.email, person.age])
 
     return person
   }
