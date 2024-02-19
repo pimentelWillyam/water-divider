@@ -139,7 +139,8 @@ class PostgresDataSource implements IDataSource {
     if (this.connectionPool === undefined) throw new Error('Pool de conexões indefinida')
 
     if (person === null) return null
-    await this.connectionPool.query(postgresQueries.deletePersonRegistryBy, [parameter, parameterValue])
+    const res = await this.connectionPool.query(postgresQueries.deletePersonRegistryById, [parameterValue])
+    console.log(res)
     return person
   }
 }

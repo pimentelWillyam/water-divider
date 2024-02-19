@@ -23,7 +23,7 @@ const postgresQueries = {
     email = ?,
     age = ?
     WHERE WHERE $1 = $2 ;`,
-  deletePersonRegistryBy: 'DELETE FROM nome_da_tabela WHERE $1 ;'
+  deletePersonRegistryById: 'DELETE FROM person WHERE id = $1 ;'
 
 }
 
