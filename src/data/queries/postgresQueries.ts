@@ -17,12 +17,13 @@ const postgresQueries = {
   fetchPersonRegistryBy: 'SELECT * FROM person WHERE $1 = $2 ;',
   fetchPersonRegistryById: 'SELECT * FROM person WHERE id = $1 ;',
   fetchPersonRegistryByEmail: 'SELECT * FROM person WHERE email = $1 ;',
-  updatePersonRegistryBy: ` UPDATE person SET
-    id = ?,
-    name = ?,
-    email = ?,
-    age = ?
-    WHERE WHERE $1 = $2 ;`,
+  updatePersonRegistryById: ` UPDATE person SET
+    id = $1,
+    name = $2,
+    password = $3,
+    email = $4,
+    age = $5
+    WHERE id = $6 ;`,
   deletePersonRegistryById: 'DELETE FROM person WHERE id = $1 ;'
 
 }
