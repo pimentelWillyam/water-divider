@@ -1,7 +1,7 @@
 import * as jsonWebToken from 'jsonwebtoken'
-import { type IJsonWebTokenGenerator } from '../interface/IJsonWebTokenGenerator'
+import { type IJsonWebToken } from '../interface/IJsonWebToken'
 
-class JsonWebTokenGenerator implements IJsonWebTokenGenerator {
+class JsonWebToken implements IJsonWebToken {
   generate = (id: string, name: string, email: string): string => {
     return jsonWebToken.sign({
       data: { id, name, email }
@@ -9,4 +9,4 @@ class JsonWebTokenGenerator implements IJsonWebTokenGenerator {
   }
 }
 
-export { JsonWebTokenGenerator }
+export { JsonWebToken }
