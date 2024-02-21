@@ -1,7 +1,7 @@
 import type AuthResponse from '../entity/AuthResponse'
 import type IAuthService from '../interface/IAuthService'
 import type IPersonRepository from '../interface/IPersonRepository'
-import { type IJsonWebTokenGenerator } from '../interface/IJsonWebTokenGenerator'
+import { type IJsonWebTokenGenerator } from '../interface/IJsonWebToken'
 import { type IErrorFactory } from '../interface/IErrorFactory'
 
 class AuthService implements IAuthService {
