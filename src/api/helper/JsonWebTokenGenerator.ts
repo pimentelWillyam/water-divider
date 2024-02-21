@@ -7,6 +7,10 @@ class JsonWebToken implements IJsonWebToken {
       data: { id, name, email }
     }, 'secret', { expiresIn: '10m' })
   }
+
+  verify = (token: string, secret: string): string => {
+    return 'a'
+  }
 }
 
 export { JsonWebToken }
