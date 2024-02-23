@@ -9,13 +9,6 @@ import { type DataSourceConnectionConfig } from './type/DataSourceConnectionConf
 
 class PostgresDataSource implements IDataSource {
   private connectionPool: Pool | undefined
-  // const client = new Client()
-  // await client.connect()
-
-  // const res = await client.query('SELECT $1::text as message', ['Hello world!''])
-  // console.log(res.rows[0].message) // Hello world!
-  // await client.end()
-
   constructor (private readonly connectionConfig: DataSourceConnectionConfig) {}
 
   async start (): Promise<void> {
@@ -38,7 +31,6 @@ class PostgresDataSource implements IDataSource {
   async bootstrap2 (): Promise<void> {
     if (!await this.databaseExists()) await this.createTables()
     await this.createTables()
-    // console.log('test')
     //
   }
 
@@ -54,8 +46,6 @@ class PostgresDataSource implements IDataSource {
   private async databaseExists (): Promise<boolean> {
     if (this.connectionPool === undefined) throw new Error('Pool de conexões indefinida')
     const response = await this.connectionPool.query(postgresQueries.verifyIfBoilerplateDatabaseExists)
-    console.log(postgresQueries.verifyIfBoilerplateDatabaseExists)
-    console.log(response.rows[0].exists)
     return response.rows[0].exists
   }
 
@@ -119,7 +109,6 @@ class PostgresDataSource implements IDataSource {
         return queryResult.rows[0]
       case 'email':
         queryResult = await this.connectionPool.query(postgresQueries.fetchPersonRegistryByEmail, [parameterValue])
-        console.log(queryResult.rows[0])
         if (queryResult.rows[0] === undefined) return null
         return queryResult.rows[0]
       default:
@@ -139,8 +128,7 @@ class PostgresDataSource implements IDataSource {
     if (this.connectionPool === undefined) throw new Error('Pool de conexões indefinida')
 
     if (person === null) return null
-    const res = await this.connectionPool.query(postgresQueries.deletePersonRegistryById, [parameterValue])
-    console.log(res)
+    await this.connectionPool.query(postgresQueries.deletePersonRegistryById, [parameterValue])
     return person
   }
 }
