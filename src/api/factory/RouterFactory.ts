@@ -7,6 +7,11 @@ import AuthRouter from '../router/AuthRouter'
 import { type Router } from '../type/Router'
 import type PersonController from '../controller/PersonController'
 import { type AuthController } from '../controller/AuthController'
+import { AuthenticationMiddleware } from '../middleware/AuthenticationMiddleware'
+import { JsonWebToken } from '../helper/JsonWebToken'
+
+import { config } from '../../config'
+import { ErrorFactory } from './ErrorFactory'
 
 class RouterFactory implements IRouterFactory {
   private readonly controllerFactory
@@ -17,7 +22,7 @@ class RouterFactory implements IRouterFactory {
   fabricate (routerType: RouterType): Router {
     switch (routerType) {
       case 'person':
-        return new PersonRouter(this.controllerFactory.fabricate('person') as PersonController)
+        return new PersonRouter(new AuthenticationMiddleware(new JsonWebToken(config.jwt), new ErrorFactory()), this.controllerFactory.fabricate('person') as PersonController)
       case 'auth':
         return new AuthRouter(this.controllerFactory.fabricate('auth') as AuthController)
 
