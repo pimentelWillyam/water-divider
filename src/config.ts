@@ -18,11 +18,15 @@ const config = {
       password: process.env.POSTGRES_PASSWORD as string,
       connectionLimit: parseInt(process.env.POSTGRES_CONNECTION_LIMIT as string)
 
-    },
-    api: {
-      host: process.env.HOST_API as string,
-      port: process.env.PORT_API as string
     }
+  },
+  api: {
+    host: process.env.HOST_API as string,
+    port: process.env.PORT_API as string
+  },
+  jwt: {
+    secret: process.env.JWT_AUTHENTICATION_SECRET as string,
+    expiresIn: process.env.JWT_EXPIRATION_TIME as string
   }
 
 }
