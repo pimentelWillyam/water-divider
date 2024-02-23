@@ -14,7 +14,7 @@ class PersonRouter implements IPersonRouter {
   constructor (readonly authenticationMiddleware: IAuthenticationMiddleware, readonly personController: IPersonController) {
     this.routes = express.Router()
     this.routes.post('/person', this.authenticationMiddleware.authenticateToken, (req: Request, res: Response) => { void this.personController.create(req, res) })
-    this.routes.get('/person', this.authenticationMiddleware.authenticateToken, (res: Response) => { void this.personController.getAll(res) })
+    this.routes.get('/person', this.authenticationMiddleware.authenticateToken, (req: Request, res: Response) => { void this.personController.getAll(res) })
     this.routes.get('/person/:id', this.authenticationMiddleware.authenticateToken, (req: Request, res: Response) => { void this.personController.get(req, res) })
     this.routes.put('/person/:id', this.authenticationMiddleware.authenticateToken, (req: Request, res: Response) => { void this.personController.update(req, res) })
     this.routes.delete('/person/:id', this.authenticationMiddleware.authenticateToken, (req: Request, res: Response) => { void this.personController.delete(req, res) })
