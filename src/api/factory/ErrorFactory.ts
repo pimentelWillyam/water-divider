@@ -27,9 +27,15 @@ class DetailedError extends Error {
   }
 }
 
-class InvalidAgeError extends KnownError {
-  constructor () {
-    super('Idade inválida', 'Não é possivel cadastrar uma idade inválida, para uma idade ser válida precisa estar entre 18 e 65', 400)
+class TokenError extends Error {
+  detail: string
+  status: number
+  constructor (name: string, message: string, detail: string, status: number) {
+    super()
+    this.name = name
+    this.message = message
+    this.detail = detail
+    this.status = status
   }
 }
 
