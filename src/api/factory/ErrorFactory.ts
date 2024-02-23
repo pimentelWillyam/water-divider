@@ -39,17 +39,23 @@ class TokenError extends Error {
   }
 }
 
+// class InvalidAgeError extends KnownError {
+//   constructor () {
+//     super('Idade inválida', 'Não é possivel cadastrar uma idade inválida, para uma idade ser válida precisa estar entre 18 e 65', 400)
+//   }
+// }
+
 class DetailedInvalidAgeError extends DetailedError {
   constructor () {
     super('Idade inválida', 'Não é possivel cadastrar uma idade inválida', 'Idades abaixo de 18 e acima de 65 são consideradas inválidas', { field: 'age', reason: 'Você deve indicar uma idade válida' }, 400)
   }
 }
 
-class InvalidDataTypeError extends KnownError {
-  constructor (attribute: string) {
-    super('Tipo de dado inválido', `Não é possivel cadastrar um ${attribute} vazio, indefinido ou nulo`, 400)
-  }
-}
+// class InvalidDataTypeError extends KnownError {
+//   constructor (attribute: string) {
+//     super('Tipo de dado inválido', `Não é possivel cadastrar um ${attribute} vazio, indefinido ou nulo`, 400)
+//   }
+// }
 
 class DetailedInvalidDataType extends DetailedError {
   constructor (attribute: string) {
@@ -57,11 +63,11 @@ class DetailedInvalidDataType extends DetailedError {
   }
 }
 
-class InvalidEmailError extends KnownError {
-  constructor () {
-    super('Email inválido', 'Não é possivel cadastrar um email inválido, ele precisa seguir o formato exemplo@exemplo.exemplo', 400)
-  }
-}
+// class InvalidEmailError extends KnownError {
+//   constructor () {
+//     super('Email inválido', 'Não é possivel cadastrar um email inválido, ele precisa seguir o formato exemplo@exemplo.exemplo', 400)
+//   }
+// }
 
 class DetailedInvalidEmailError extends DetailedError {
   constructor () {
@@ -69,11 +75,11 @@ class DetailedInvalidEmailError extends DetailedError {
   }
 }
 
-class NameHasAnyNumberError extends KnownError {
-  constructor () {
-    super('Nome possui algum número', 'Não é possivel cadastrar um nome que contenha números', 400)
-  }
-}
+// class NameHasAnyNumberError extends KnownError {
+//   constructor () {
+//     super('Nome possui algum número', 'Não é possivel cadastrar um nome que contenha números', 400)
+//   }
+// }
 
 class DetailedNameHasAnyNumberError extends DetailedError {
   constructor () {
@@ -81,11 +87,11 @@ class DetailedNameHasAnyNumberError extends DetailedError {
   }
 }
 
-class NameLengthBelowFourLettersError extends KnownError {
-  constructor () {
-    super('Nome abaixo de quatro letras', 'Não é possivel cadastrar um nome com a quantidade de caracteres abaixo de quatro letras', 400)
-  }
-}
+// class NameLengthBelowFourLettersError extends KnownError {
+//   constructor () {
+//     super('Nome abaixo de quatro letras', 'Não é possivel cadastrar um nome com a quantidade de caracteres abaixo de quatro letras', 400)
+//   }
+// }
 
 class DetailedNameLengthBelowFourLettersError extends DetailedError {
   constructor () {
@@ -105,11 +111,11 @@ class LoginAlreadyExists extends KnownError {
   }
 }
 
-class DetailedLoginAlreadyExists extends DetailedError {
-  constructor () {
-    super('Login existente', 'Não é possivel cadastrar um login que já existe', 'Um login precisa ser único para ser considerado válido ', { field: 'email', reason: 'Você deve indicar um login único' }, 400)
-  }
-}
+// class DetailedLoginAlreadyExists extends DetailedError {
+//   constructor () {
+//     super('Login existente', 'Não é possivel cadastrar um login que já existe', 'Um login precisa ser único para ser considerado válido ', { field: 'email', reason: 'Você deve indicar um login único' }, 400)
+//   }
+// }
 
 class EmailAlreadyExists extends KnownError {
   constructor () {
@@ -117,9 +123,15 @@ class EmailAlreadyExists extends KnownError {
   }
 }
 
-class DetailedEmailAlreadyExists extends DetailedError {
+// class DetailedEmailAlreadyExists extends DetailedError {
+//   constructor () {
+//     super('Email existente', 'Não é possivel cadastrar um email que já existe', 'Um email precisa ser único para ser considerado válido ', { field: 'email', reason: 'Você deve indicar um email único' }, 400)
+//   }
+// }
+
+class InvalidTokenError extends TokenError {
   constructor () {
-    super('Email existente', 'Não é possivel cadastrar um email que já existe', 'Um email precisa ser único para ser considerado válido ', { field: 'email', reason: 'Você deve indicar um email único' }, 400)
+    super('Token inválido', 'O token fornecido foi considerado inválido', 'O token é nulo, expirou ou não é autêntico', 401)
   }
 }
 
@@ -139,6 +151,7 @@ class ErrorFactory implements IErrorFactory {
     if (errorType === 'invalid login or password') return new InvalidLoginOrPassword()
     if (errorType === 'login already exists') return new LoginAlreadyExists()
     if (errorType === 'email already exists') return new EmailAlreadyExists()
+    if (errorType === 'invalid token') return new InvalidTokenError()
 
     return new ServerError()
   }
