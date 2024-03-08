@@ -10,6 +10,7 @@ import { UUIDGeneratorFactory } from './UUIDGeneratorFactory'
 import AuthService from '../service/AuthService'
 import { JsonWebToken } from '../helper/JsonWebToken'
 import { ErrorFactory } from './ErrorFactory'
+import { Email } from '../type/EmailSender'
 import { config } from '../../config'
 
 class ServiceFactory implements IServiceFactory {
@@ -26,7 +27,7 @@ class ServiceFactory implements IServiceFactory {
       case 'person':
         return new PersonService(this.repositoryFactory.fabricate('person'), this.uuidGeneratorFactory.fabricate(), this.nameNormalizerFactory.fabricate())
       case 'auth':
-        return new AuthService(this.errorFactory, this.repositoryFactory.fabricate('person'), new JsonWebToken(config.jwt))
+        return new AuthService(this.errorFactory, this.repositoryFactory.fabricate('person'), new JsonWebToken(config.jwt), new Email())
 
       default:
         throw new Error('Error at validator fabrication')
