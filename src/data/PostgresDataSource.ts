@@ -118,7 +118,8 @@ class PostgresDataSource implements IDataSource {
 
   async updatePersonRegistryBy (parameter: string, parameterValue: string, personToUpdate: Person): Promise<Person> {
     if (this.connectionPool === undefined) throw new Error('Pool de conexões indefinida')
-    await this.connectionPool.query(postgresQueries.updatePersonRegistryById, [personToUpdate.id, personToUpdate.name, personToUpdate.password, personToUpdate.email, personToUpdate.age, parameterValue])
+    const res = await this.connectionPool.query(postgresQueries.updatePersonRegistryById, [personToUpdate.id, personToUpdate.name, personToUpdate.password, personToUpdate.email, personToUpdate.age, parameterValue])
+    if (res.rows[0] === undefined) throw new Error('Não foi possível alterar um registro com esse ID')
 
     return personToUpdate
   }
