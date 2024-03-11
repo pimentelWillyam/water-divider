@@ -27,7 +27,7 @@ class ServiceFactory implements IServiceFactory {
       case 'person':
         return new PersonService(this.repositoryFactory.fabricate('person'), this.uuidGeneratorFactory.fabricate(), this.nameNormalizerFactory.fabricate())
       case 'auth':
-        return new AuthService(this.errorFactory, this.repositoryFactory.fabricate('person'), new JsonWebToken(config.jwt), new Email())
+        return new AuthService(this.errorFactory, this.repositoryFactory.fabricate('person'), new JsonWebToken(config.jwt), new Email(config.email))
 
       default:
         throw new Error('Error at validator fabrication')
