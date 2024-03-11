@@ -1,3 +1,3 @@
-type HelperType = 'json web token'
+type HelperType = 'json web token' | 'email'
 
 export type { HelperType }
