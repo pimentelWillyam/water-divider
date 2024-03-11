@@ -27,6 +27,11 @@ const config = {
   jwt: {
     secret: process.env.JWT_AUTHENTICATION_SECRET as string,
     expiresIn: process.env.JWT_EXPIRATION_TIME as string
+  },
+  email: {
+    login: process.env.EMAIL_LOGIN as string,
+    password: process.env.EMAIL_PASSWORD as string
+
   }
 
 }
