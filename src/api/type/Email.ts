@@ -15,7 +15,7 @@ class Email implements IEmail {
     })
     try {
       await transporter.sendMail({
-        from: '"Maddison Foo Koch 👻" <maddison53@ethereal.email>', // sender address
+        from: '"Willyam Pimentel 🇻🇦" <willyampimentel@gmail.com>', // sender address
         to: destiny, // list of receivers
         subject: title,
         text: message
