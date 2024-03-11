@@ -3,7 +3,7 @@ import { type IHelperFactory } from '../interface/IHelperFactory'
 import { type Helper } from '../type/Helper'
 import { type HelperType } from '../type/HelperType'
 import { config } from '../../config'
-import { Email } from '../type/EmailSender'
+import { Email } from '../type/Email'
 
 class HelperFactory implements IHelperFactory {
   fabricate = (helperType: HelperType): Helper => {

@@ -10,7 +10,7 @@ import { UUIDGeneratorFactory } from './UUIDGeneratorFactory'
 import AuthService from '../service/AuthService'
 import { JsonWebToken } from '../helper/JsonWebToken'
 import { ErrorFactory } from './ErrorFactory'
-import { Email } from '../type/EmailSender'
+import { Email } from '../type/Email'
 import { config } from '../../config'
 
 class ServiceFactory implements IServiceFactory {
