@@ -17,6 +17,7 @@ class PersonRouter implements IPersonRouter {
     this.routes.get('/person', this.authenticationMiddleware.authenticateToken.bind(this.authenticationMiddleware), (req: Request, res: Response) => { void this.personController.getAll(res) })
     this.routes.get('/person/:id', this.authenticationMiddleware.authenticateToken.bind(this.authenticationMiddleware), (req: Request, res: Response) => { void this.personController.get(req, res) })
     this.routes.put('/person/:id', this.authenticationMiddleware.authenticateToken.bind(this.authenticationMiddleware), (req: Request, res: Response) => { void this.personController.update(req, res) })
+    this.routes.patch('/person/:id', this.authenticationMiddleware.authenticateToken.bind(this.authenticationMiddleware), (req: Request, res: Response) => { void this.personController.patch(req, res) })
     this.routes.delete('/person/:id', this.authenticationMiddleware.authenticateToken.bind(this.authenticationMiddleware), (req: Request, res: Response) => { void this.personController.delete(req, res) })
   }
 }

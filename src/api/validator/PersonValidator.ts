@@ -33,6 +33,12 @@ class PersonValidator implements IPersonValidator {
     return errorList
   }
 
+  readonly validatePasswordChange = async (password: string): Promise<KnownError[]> => {
+    const errorList: KnownError[] = []
+    if (password !== undefined && this.valueIsNullOrUndefinedOrEmpty(password)) errorList.push(this.errorFactory.create('invalid data type', 'senha'))
+    return errorList
+  }
+
   private readonly nameIsLongEnough = (name: string): boolean => {
     if (name.length <= 3) return false
     return true

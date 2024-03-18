@@ -68,6 +68,26 @@ class PersonController implements IPersonController {
     }
   }
 
+  async patch (req: Request, res: Response): Promise<Response<any, Record<string, any>>> {
+    const errorList = await this.personValidator.validatePasswordChange(req.body.password)
+    if (errorList.length !== 0) return res.status(400).json({ errorList })
+    try {
+      const person = await this.personService.get(req.params.id)
+      if (person === null) throw new KnownError('Pessoa não encontrada', 'Não foi possível encontrar uma pessoa com esse ID', 404)
+      person.password = req.body.password
+      console.log(person)
+      await this.personService.update(req.params.id, person)
+      if (person !== null) return res.status(200).send({ message: `Senha alterada com sucesso, sua nova senha é ${person.password}` })
+      else return res.status(404).send({ name: 'Pessoa não encontrada', message: 'Não foi possível encontrar uma pessoa com este ID' })
+    } catch (error) {
+      console.error(error)
+      if (error instanceof KnownError) {
+        return res.status(error.status).send({ name: error.name, message: error.message })
+      }
+      return res.status(500).send({ name: 'Erro desconhecido', error })
+    }
+  }
+
   async delete (req: Request, res: Response): Promise<Response<any, Record<string, any>>> {
     try {
       const person = await this.personService.delete(req.params.id)
