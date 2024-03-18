@@ -1,3 +1,3 @@
-type RepositoryType = 'person' | 'email sender'
+type RepositoryType = 'person'
 
 export type { RepositoryType }
