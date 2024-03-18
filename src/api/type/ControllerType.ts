@@ -1,3 +1,3 @@
-type ControllerType = 'person' | 'auth'
+type ControllerType = 'person' | 'auth' | 'email sender'
 
 export type { ControllerType }

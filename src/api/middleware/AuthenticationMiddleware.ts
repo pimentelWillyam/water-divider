@@ -7,6 +7,7 @@ class AuthenticationMiddleware implements IAuthenticationMiddleware {
 
   authenticateToken (req: Request, res: Response, nextFunction: NextFunction): void {
     const token = req.headers.bearer?.slice(7, req.headers.bearer.length)
+    console.log(token)
     if (token === undefined || typeof token !== 'string') throw this.errorFactory.create('invalid age')
     this.jsonWebToken.verify(token)
     nextFunction()

@@ -11,7 +11,7 @@ class APIFactory implements IAPIFactory {
   }
 
   fabricate (): API {
-    return new API(express(), [this.routerFactory.fabricate('person'), this.routerFactory.fabricate('auth')])
+    return new API(express(), [this.routerFactory.fabricate('person'), this.routerFactory.fabricate('auth'), this.routerFactory.fabricate('email sender')])
   }
 }
 
