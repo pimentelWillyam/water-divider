@@ -2,12 +2,15 @@ import { APIFactory } from '../../api/factory/APIFactory'
 
 import * as request from 'supertest'
 import { DataSourceFactory } from '../../api/factory/DataSourceFactory'
+import {Helper}
 
 // getting .env configuration
 
 describe('User integration tests', () => {
   const dataSource = new DataSourceFactory().fabricate('memory')
   const api = new APIFactory(dataSource).fabricate()
+  const tokenGener
+  let authenticationToken = ''
   beforeEach(() => {
     api.start(4000)
   })
