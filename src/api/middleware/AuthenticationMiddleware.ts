@@ -6,7 +6,7 @@ class AuthenticationMiddleware implements IAuthenticationMiddleware {
   constructor (readonly jsonWebToken: IJsonWebToken, readonly errorFactory: IErrorFactory) {}
 
   authenticateToken (req: Request, res: Response, nextFunction: NextFunction): void {
-    const token = req.headers.bearer?.slice(7, req.headers.bearer.length)
+    const token = req.headers.authorization?.slice(7, req.headers.authorization.length)
     if (token === undefined || typeof token !== 'string') throw this.errorFactory.create('invalid token')
     this.jsonWebToken.verify(token)
     nextFunction()
