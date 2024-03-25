@@ -2,15 +2,16 @@ import { APIFactory } from '../../api/factory/APIFactory'
 
 import * as request from 'supertest'
 import { DataSourceFactory } from '../../api/factory/DataSourceFactory'
-import {Helper}
+import { HelperFactory } from '../../api/factory/HelperFactory'
+import { type JsonWebToken } from '../../api/helper/JsonWebToken'
 
 // getting .env configuration
 
 describe('User integration tests', () => {
-  const dataSource = new DataSourceFactory().fabricate('memory')
+  const dataSource = new DataSourceFactory().fabricate('postgres')
   const api = new APIFactory(dataSource).fabricate()
-  const tokenGener
-  let authenticationToken = ''
+  const jwt = new HelperFactory().fabricate('json web token') as JsonWebToken
+  const token = jwt.generate('', '', '')
   beforeEach(() => {
     api.start(4000)
   })
@@ -18,13 +19,18 @@ describe('User integration tests', () => {
   afterEach(async () => {
     api.stop()
     await dataSource.stop()
+    request(api.server)
   })
-  test('Deve inserir uma pessoa no banco em memória', async () => {
-    const response = await request(api.server).post('/api/person').send({
-      name: 'willyam',
-      email: 'willyam@gmail.com',
-      age: 22
-    })
+
+  test('Deve ser capaz de inserir uma pessoa', async () => {
+    const response = await request(api.server)
+      .post('/api/person').send({
+        name: 'willyam',
+        email: 'willyam@gmail.com',
+        age: 22
+      })
+      .set('Authorization', token)
+
     expect(response.status).toEqual(201)
     expect(response.body.name).toEqual('Willyam')
     expect(response.body.email).toEqual('willyam@gmail.com')
@@ -32,11 +38,13 @@ describe('User integration tests', () => {
   })
 
   test('Não deve inserir uma pessoa cujo nome tem menos de 4 letras', async () => {
-    const response = await request(api.server).post('/api/person').send({
-      name: 'wil',
-      email: 'willyam@gmail.com',
-      age: 22
-    })
+    const response = await request(api.server).post('/api/person')
+      .send({
+        name: 'wil',
+        email: 'willyam@gmail.com',
+        age: 22
+      })
+      .set('Authorization', token)
     expect(response.status).toEqual(400)
     expect(response.body.errorList[0].name).toEqual('Nome abaixo de quatro letras')
     expect(response.body.errorList[0].message).toEqual('Não é possivel cadastrar um nome com a quantidade de caracteres abaixo de quatro letras')
